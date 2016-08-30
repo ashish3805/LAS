@@ -1,0 +1,22 @@
+{
+  "name": "las",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "ashish patel <ashish_3805@hotmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ashish3805/LAS",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.5.8",
+    "jquery": "^3.1.0",
+    "bootstrap-css": "^3.3.6"
+  }
+}
