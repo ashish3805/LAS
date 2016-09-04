@@ -8,6 +8,28 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+//By Apurva
+var auth = require('./routes/auth');
+var code = require('./routes/code');
+var profile = require('./routes/profile');
+var users = require('./routes/users');
+var assignments=require('./routes/assignments');
+var questions=require('./routes/questions');
+var courses=require('./routes/courses');
+var solutions=require('./routes/solutions');
+var mongoose= require('mongoose');
+
+
+mongoose.connect('mongodb://localhost/test');
+var db=mongoose.connection;
+db.on('error',console.error.bind(console,'connection-error: '));
+db.once('open',function () {
+	console.log("connected to db");
+});
+
+//models
+var Assignment=require('./models/Assignment');
+
 var app = express();
 
 // view engine setup
@@ -22,9 +44,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//add bower
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+
 app.use('/', routes);
 app.use('/users', users);
 
+app.use('/auth',auth);
+app.use('/code',code);
+app.use('/profile',profile);
+app.use('/users',users);
+app.use('/assignments',assignments);
+app.use('/questions',questions);
+app.use('/courses',courses);
+app.use('/solutions',solutions);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
