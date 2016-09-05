@@ -8,17 +8,23 @@ var assignments=express.Router();
  		var ass=Assignment(req.body);
  		ass.save(req.body,function (err,data) {
  			if(err){
- 				console.log("Error");
- 				res.send("Got Error");
- 			}
- 			else{
+ 				console.log(err);
+ 				res.send(err);
+ 			}else{
  				res.send(data);
  			}
  		});
  	})
  	.get(function (req,res) {
-  		console.log('get many');
- 		res.send("get many");
+  		Assignment.find({},function (err,data) {
+  			if(err){
+  				console.log(err);
+  				res.send(err);
+  			}else{
+  				console.log(data);
+  				res.send(data);
+  			}
+  		});
   	});
  	
 assignments.route('/:id')
