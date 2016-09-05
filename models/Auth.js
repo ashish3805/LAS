@@ -13,14 +13,8 @@ userSchema.methods.getClassmates= function(cb){
 };
 
 var User=mongoose.model('User',userSchema);
-//connect
-mongoose.connect('mongodb://localhost/test');
-var db=mongoose.connection;
-db.on('error',console.error.bind(console,'connection-error: '));
-db.once('open',function () {
-	console.log("connected");
-});
 
+//tests
 var apurva= new User({
 	name:'apurva',
 	password:'12345',
