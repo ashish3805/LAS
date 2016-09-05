@@ -1,15 +1,30 @@
 var express=require('express');
-var Questions=require('../models/Question');
+var Question=require('../models/Question');
 var questions=express.Router();
 
 questions.route('/')
 	.post(function (req,res) {
-		console.log('post');
-		res.send("post");
+		var question=Question(req.body);
+		question.save(req.body,function (err,data) {
+			if(err){
+				console.log(err);
+				res.send(err);
+			}else{
+				console.log(data);
+				res.send(data);
+			}
+		})
 	})
 	.get(function (req,res) {
-		console.log('get');
-		res.send("get");
+		Question.find({},function (err,data) {
+			if(err){
+				console.log(err);
+				res.send(err);
+			}else{
+				console.log(data);
+				res.send(data);
+			}
+		});
 	});
 
 questions.route('/:id')
