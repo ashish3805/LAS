@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script type="js/jquery.min.js"></script>
-	<script type="js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 	<title>Student Dashboard</title>
 </head>
-<body>
+<body ng-app="lasApp">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -21,9 +22,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="container" ng-controller="homeController">
 		<div class="jumbotron">
-			<h1 class="text-center">Welcome User</h1>
+			<h1 class="text-center">Welcome {{user}}</h1>
 			<p class="text-center">You are enrolled in <!--3 courses-->,you have <!--4 assignments--> to complete</p>
 			<div class="text-center">
 			<button type="button" class="tn btn-info btn-lg">
@@ -94,4 +95,5 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript" src="js/lasApp.js"></script>
 </html>

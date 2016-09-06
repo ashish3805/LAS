@@ -46,6 +46,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //add bower
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+//add templates for Angular
+app.use('/templates',  express.static(__dirname + '/views/templates'));
 
 app.use('/', routes);
 app.use('/users', users);
