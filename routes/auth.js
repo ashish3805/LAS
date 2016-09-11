@@ -8,6 +8,7 @@ router.route('/')
 	})
 	.get(function (req,res) {
 		res.send(req.headers);
+		console.log(req.headers.username,req.headers.password);
 		
 	})
 	module.exports=router;

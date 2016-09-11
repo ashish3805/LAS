@@ -1,0 +1,30 @@
+	<div class="container">
+		<div class="row">
+			<form>
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input type="input" class="form-control" name="name" placeholder="Enter your name here" ng-model="name">
+					<label for="enrollment">Enrollment Number</label>
+					<input type="input" class="form-control" name="enrollment" placeholder="Enter Enrollment number" ng-model="enrollment">
+					<label for="email">Email id</label>
+					<input type="email" class="form-control" name="email" placeholder="Enter emailid"  ng-model="email">
+					<label for="branch">Branch</label>
+					<div class ="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="branch_menu" data-toggle="dropdown">Select Branch
+							<span class="caret"></span>
+						</button>
+						<ul class="branchMenu" role="menu" aria-labelledby="branch_menu">
+							<li  ng-model="branch">CS</li>
+							<li>IT</li>
+							<li>ME</li>
+							<li>CE</li>
+						</ul>
+					</div>
+					<label for="branch">Enrollment Number</label>
+					<input type="input" class="form-control" name="enrollment" placeholder="Enter Enrollment number">
+					<label for="Enrollment">Enrollment Number</label>
+					<input type="input" class="form-control" name="enrollment" placeholder="Enter Enrollment number">
+				</div>
+			</form>
+		</div>
+	</div>		

@@ -1,8 +1,7 @@
 /*Main Module
 	list all dependent modules here
 */
-
-var auth=angular.module('auth',['$http']);
+angular.module('auth',[]);
 var app=angular.module("lasApp",['ui.router','auth']);
 
 app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
@@ -12,16 +11,17 @@ app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlR
 			templateUrl:'/templates/signIn.htm',
 			controller:'signIn'
 		})
+		.state('/signUp'{
+			url:'signUp',
+			templateUrl:'/templates/signUp.htm',
+			controller:'signUp'
+		})
 		.state('studentDashBoard',{
 			url:'/studentDashBoard'
 
 		})
 	$urlRouterProvider.otherwise('auth');
 
-}]);
-
-app.controller('homeController',function ($scope){
+}]).controller('homeController',function ($scope){
 	$scope.user="ashish";
 });
-
-
