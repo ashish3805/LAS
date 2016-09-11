@@ -26,7 +26,7 @@ auth.factory('authService',function ($http){
 	reset();
 	self.submit=function () {
 		console.log("clicked",self.username,self.password);
-		var status=authService.getStatus(self.password,self.username);
+		var status=authService.signIn(self.password,self.username);
 		status.then(
 			function (data) {
 				console.log(data);

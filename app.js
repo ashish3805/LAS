@@ -8,13 +8,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// required for passport
-app.use(session({ secret: 'Apurva' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -41,6 +34,12 @@ db.once('open',function () {
 var Assignment=require('./models/Assignment');
 
 var app = express();
+
+// required for passport
+app.use(session({ secret: 'Apurva' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
