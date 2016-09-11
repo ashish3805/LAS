@@ -12,7 +12,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 //By Apurva
-var auth = require('./routes/auth');
+//var auth = require('./routes/auth');
 var code = require('./routes/code');
 var profile = require('./routes/profile');
 var users = require('./routes/users');
@@ -20,6 +20,8 @@ var assignments=require('./routes/assignments');
 var questions=require('./routes/questions');
 var courses=require('./routes/courses');
 var solutions=require('./routes/solutions');
+var signin=require('./routes/signin');
+var signup=require('./routes/signup');
 var mongoose= require('mongoose');
 
 
@@ -34,6 +36,12 @@ db.once('open',function () {
 var Assignment=require('./models/Assignment');
 
 var app = express();
+// required for passport
+app.use(session({secret:'Apurva'})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
 
 // required for passport
 app.use(session({ secret: 'Apurva' })); // session secret
@@ -63,7 +71,7 @@ app.use('/stylesheets',  express.static(__dirname + 'public/stylesheets'));
 app.use('/', routes);
 app.use('/users', users);
 
-app.use('/auth',auth);
+//app.use('/auth',auth);
 app.use('/code',code);
 app.use('/profile',profile);
 app.use('/users',users);
@@ -71,6 +79,8 @@ app.use('/assignments',assignments);
 app.use('/questions',questions);
 app.use('/courses',courses);
 app.use('/solutions',solutions);
+app.use('/signin',signin);
+app.use('/signup',signup);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -26,13 +26,28 @@ module.exports=function(passport){
 					user.password=generateHash(password);
 					user.save(function (err) {
 						if(err)
-							console.log("Error");
+							return done(err);
 						else
 							return done(null,user);
 					});
 
 				}
 			});
+		});
+	}));
+	passport.use('local-login', new LocalStrategy({
+		passReqToCallback : true
+	},
+	function(req,username, password, done) {
+		User.findOne({ 'username' :username}, function(err, user) {
+			if (err)
+				return done(err);
+			if (!user)
+				return done(null, false, req.flash('loginMessage', 'User not found.'));
+			if (!user.validPassword(password))
+				return done(null, false, req.flash('loginMessage', 'Incorrect password.')); 
+			else
+				return done(null, user);
 		});
 	}));
 }
