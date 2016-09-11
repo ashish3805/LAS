@@ -11,17 +11,12 @@ app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlR
 		templateUrl:'/templates/signIn.htm',
 		controller:'signIn'
 	})
-	.state('/signUp'{
-		url:'signUp',
+	.state('signUp',{
+		url:'/signUp',
 		templateUrl:'/templates/signUp.htm',
 		controller:'signUp'
-	})
-	.state('studentDashBoard',{
-		url:'/studentDashBoard'
-
-	})
+	});
 	$urlRouterProvider.otherwise('auth');
-
 }]).controller('homeController',function ($scope){
 	$scope.user="ashish";
 });
