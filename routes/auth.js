@@ -27,6 +27,6 @@ router.route('/')
 											})	
 									}
 			))
-		
+		console.log(req.headers.username,req.headers.password);
 	})
 	module.exports=router;
