@@ -1,14 +1,16 @@
 var JwtStrategy=require('passport-jwt').Strategy;
+var passport=require('passport');
 var ExtractJwt=require('passport-jwt').ExtractJwt;
 var User=require('../models/User');
 
 //signup strategy
 passport.use('jwt-signup',new JwtStrategy({
 	jwtFromRequest :ExtractJwt.fromAuthHeader(),
-	secretOrKey : 'apurva'
-},function (jwt_payload, done) {
-	process.nextTick(function () {
-		User.findOne({'username':jwt_payload.username},function (err,user) {
+	secretOrKey : 'apurva',
+	passReqToCallback : true
+},function (req,jwt_payload, done) {
+		console.log(req.body);
+		User.findOne({'username':req.body.username},function (err,user) {
 			if(err)
 				return done(err);
 			if(user){
@@ -26,7 +28,6 @@ passport.use('jwt-signup',new JwtStrategy({
 
 			}
 		});
-	});
 }));
 
 // end signup strategy
@@ -76,15 +77,9 @@ module.exports.signup= function (req, res, next) {
 		if (err) { 
 			return next(err); 
 		}
-		if (!user) { 
-			return res.json({ status:false, message:info });
-		}
-		req.logIn(user, function(err) {
-			if (err) { 
-				return next(err);
-			}
+		if (user) { 
 			return res.json({ status:true, message:user });
-		});
+		}
 	})(req, res, next);
 };
 //end passport.signup

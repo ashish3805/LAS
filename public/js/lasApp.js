@@ -1,10 +1,10 @@
 /*Main Module
 list all dependent modules here
 */
-angular.module('auth',[]);
-var app=angular.module("lasApp",['ui.router','auth']);
+angular.module('authModule',[]);
+var app=angular.module("lasApp",['ui.router','authModule']);
 
-app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
+app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider,$httpProvider) {
 	$stateProvider
 	.state('auth',{
 		url:'/auth',

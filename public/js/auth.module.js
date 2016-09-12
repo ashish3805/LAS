@@ -1,17 +1,65 @@
-var auth=angular.module('auth');
-auth.factory('authService',function ($http){
-	var signIn = function (data) {
-		return $http.post('/signin',data)
-	};
-	var signUp = function (data) {
-		return $http.post('/signup',data)
+var authModule=angular.module('authModule');
+authModule
+.service('auth',function ($window){
+	console.log("auth");
+	var self=this;
+	self.parseJwt = function(token) {
+		var base64Url = token.split('.')[1];
+		var base64 = base64Url.replace('-', '+').replace('_', '/');
+		return JSON.parse($window.atob(base64));
 	}
-	return {
-		signUp:signUp,
-		signIn:signIn
+	self.saveToken = function(token) {
+		$window.localStorage['jwtToken'] = token;
+	}
+	self.getToken = function() {
+		return $window.localStorage['jwtToken'];
+	}
+	self.isAuthed = function() {
+		var token = self.getToken();
+		if(token) {
+			var params = self.parseJwt(token);
+			return Math.round(new Date().getTime() / 1000) <= params.exp;
+		} else {
+			return false;
+		}
+	}
+	self.logout = function() {
+		$window.localStorage.removeItem('jwtToken');
 	}
 })
-.controller('signIn',['authService','$scope',function (authService,$scope) {
+.service('user',function ($http) {
+	console.log("user");
+	var self = this;
+	self.signIn = function (data) {
+		return $http.post('/signin',data)
+	};
+	self.signUp = function (data) {
+		return $http.post('/signup',data)
+	}
+})
+.factory('authInterceptor',['$injector',function ($injector) {
+	console.log("inter");
+	return {
+    // automatically attach Authorization header
+    request: function(config) {
+    	var token = $injector.get('auth').getToken();
+    	if(token) {
+    		config.headers.Authorization = 'Bearer ' + token;
+    	}
+    	return config;
+    },
+    // If a token was sent back, save it
+    response: function(res) {
+    	if(res.data.token) {
+    		$injector.get('auth').saveToken(res.data.token);
+    	}
+
+    	return res;
+    }
+}
+}])
+.controller('signIn',['auth','user','$scope',function (auth,user,$scope) {
+	console.log("signIn");
 	var self=$scope;
 	var reset=function () {
 		self.username='';
@@ -24,7 +72,7 @@ auth.factory('authService',function ($http){
 			username:self.username,
 			password:self.password
 		};
-		var status=authService.signIn(data);
+		var status=user.signIn(data);
 		status.then(
 			function (res) {
 				console.log(res.data);
@@ -35,13 +83,19 @@ auth.factory('authService',function ($http){
 			});
 	}
 }])
-.controller('signUp',['authService',"$scope",function (authService,$scope) {
+.config(function ($httpProvider) {
+	console.log("config");
+	$httpProvider.interceptors.push('authInterceptor');
+})
+.controller('signUp',['auth','user',"$scope",function (auth,user,$scope) {
+	console.log("signUp");
 	var self=$scope;
 	var reset=function () {
 		self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	}
 	reset();
 	self.submit=function () {
+		console.log("clicked");
 		var data = {
 			name:self.name,
 			username:self.username,
@@ -50,7 +104,7 @@ auth.factory('authService',function ($http){
 			email:self.email,
 			contact:self.contact
 		};
-		var status=authService.signUp(data);
+		var status=user.signUp(data);
 		status.then(
 			function (res) {
 				console.log(res.data);
