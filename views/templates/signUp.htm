@@ -3,28 +3,25 @@
 			<form>
 				<div class="form-group">
 					<label for="name">Name</label>
-					<input type="input" class="form-control" name="name" placeholder="Enter your name here" ng-model="name">
-					<label for="enrollment">Enrollment Number</label>
-					<input type="input" class="form-control" name="enrollment" placeholder="Enter Enrollment number" ng-model="enrollment">
+					<input type="text" class="form-control" name="name" placeholder="Enter your name here" ng-model="name">
+					<label for="password">Password</label>
+					<input type="password" class="form-control" name="password" placeholder="Enter Password" ng-model="password">
 					<label for="email">Email id</label>
-					<input type="email" class="form-control" name="email" placeholder="Enter emailid"  ng-model="email">
+					<input type="email" class="form-control" name="email" placeholder="Enter Email Id"  ng-model="email">
 					<label for="branch">Branch</label>
-					<div class ="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" id="branch_menu" data-toggle="dropdown">Select Branch
-							<span class="caret"></span>
-						</button>
-						<ul class="branchMenu" role="menu" aria-labelledby="branch_menu">
-							<li  ng-model="branch">CS</li>
-							<li>IT</li>
-							<li>ME</li>
-							<li>CE</li>
-						</ul>
-					</div>
-					<label for="branch">Enrollment Number</label>
-					<input type="input" class="form-control" name="enrollment" placeholder="Enter Enrollment number">
-					<label for="Enrollment">Enrollment Number</label>
-					<input type="input" class="form-control" name="enrollment" placeholder="Enter Enrollment number">
+					<select class="form-control" ng-model="branch">
+  						<option>1</option>
+ 						<option>2</option>
+  						<option>3</option>
+  						<option>4</option>
+  						<option>5</option>
+					</select>
+					<label for="username">Enrollment Number</label>
+					<input type="text" class="form-control" name="username" placeholder="Enter Enrollment number" ng-model="username">
+					<label for="contact">Enrollment Number</label>
+					<input type="number" class="form-control" name="contact" placeholder="Enter Contact Number" ng-model="contact">
 				</div>
+				<button type="submit" class="btn btn-default" ng-click="submit()">Sign Up</button>
 			</form>
 		</div>
 	</div>		

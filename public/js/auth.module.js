@@ -1,16 +1,10 @@
 var auth=angular.module('auth');
 auth.factory('authService',function ($http){
-	var signIn = function (username,password) {
-		var config={
-			headers:{
-				username:username,
-				password:password
-			}
-		};
-		return $http.get('/auth',config)
+	var signIn = function (data) {
+		return $http.post('/signin',data)
 	};
 	var signUp = function (data) {
-		return $http.post('/auth',data)
+		return $http.post('/signup',data)
 	}
 	return {
 		signUp:signUp,
@@ -26,10 +20,14 @@ auth.factory('authService',function ($http){
 	reset();
 	self.submit=function () {
 		console.log("clicked",self.username,self.password);
-		var status=authService.signIn(self.password,self.username);
+		var data={
+			username:self.username,
+			password:self.password
+		};
+		var status=authService.signIn(data);
 		status.then(
-			function (data) {
-				console.log(data);
+			function (res) {
+				console.log(res.data);
 				reset();
 			},
 			function (err) {
@@ -40,25 +38,28 @@ auth.factory('authService',function ($http){
 .controller('signUp',['authService',"$scope",function (authService,$scope) {
 	var self=$scope;
 	var reset=function () {
-		self.name=self.password=self.email=self.branch=self.enrollment=self.contact='';
+		self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	}
 	reset();
-	var data = {
-		name:self.name,
-		enrollment:self.enrollment,
-		password:self.password,
-		branch:self.branch,
-		email:self.email,
-		contact:self.contact
+	self.submit=function () {
+		var data = {
+			name:self.name,
+			username:self.username,
+			password:self.password,
+			branch:self.branch,
+			email:self.email,
+			contact:self.contact
+		};
+		var status=authService.signUp(data);
+		status.then(
+			function (res) {
+				console.log(res.data);
+				reset();
+			},
+			function (err) {
+				console.log(err);
+			}
+			);
 	};
 
-	var signUp=authService.signUp(data);
-	signUp.then(
-		function (res) {
-			console.log(res.data);
-			reset();
-		},
-		function (err) {
-			console.log(err);
-		});
 }]);
