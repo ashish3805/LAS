@@ -1,7 +1,5 @@
 var express = require('express');
 var passport = require('passport');
-var flash = require('connect-flash');
-var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -22,9 +20,9 @@ var courses=require('./routes/courses');
 var solutions=require('./routes/solutions');
 var signin=require('./routes/signin');
 var signup=require('./routes/signup');
+
+
 var mongoose= require('mongoose');
-
-
 mongoose.connect('mongodb://localhost/test');
 var db=mongoose.connection;
 db.on('error',console.error.bind(console,'connection-error: '));
@@ -36,18 +34,10 @@ db.once('open',function () {
 var Assignment=require('./models/Assignment');
 
 var app = express();
-// required for passport
-app.use(session({secret:'Apurva'})); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-
 
 // required for passport
-app.use(session({ secret: 'Apurva' })); // session secret
 app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
