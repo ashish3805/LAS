@@ -32,6 +32,7 @@ db.once('open',function () {
 
 //models
 var Assignment=require('./models/Assignment');
+var User=require('./models/User');
 
 var app = express();
 

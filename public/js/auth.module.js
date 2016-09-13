@@ -36,6 +36,9 @@ authModule
 	self.signUp = function (data) {
 		return $http.post('/signup',data)
 	}
+	self.getUser = function () {
+		return $http.get('/profile');
+	}
 })
 .factory('authInterceptor',['$injector',function ($injector) {
 	console.log("inter");
@@ -44,7 +47,7 @@ authModule
     request: function(config) {
     	var token = $injector.get('auth').getToken();
     	if(token) {
-    		config.headers.Authorization = 'Bearer ' + token;
+    		config.headers.Authorization = 'JWT ' + token;
     	}
     	return config;
     },
@@ -58,7 +61,7 @@ authModule
     }
 }
 }])
-.controller('signIn',['auth','user','$scope',function (auth,user,$scope) {
+.controller('signIn',['auth','user','$state','$scope',function (auth,user,$state,$scope) {
 	console.log("signIn");
 	var self=$scope;
 	var reset=function () {
@@ -75,8 +78,12 @@ authModule
 		var status=user.signIn(data);
 		status.then(
 			function (res) {
-				console.log(res.data);
-				reset();
+				if(res.data.status){
+					$state.go('studentDashboard');
+				}
+				else{
+					console.log("login error",res.data.message);
+				}
 			},
 			function (err) {
 				console.log(err);
@@ -87,7 +94,7 @@ authModule
 	console.log("config");
 	$httpProvider.interceptors.push('authInterceptor');
 })
-.controller('signUp',['auth','user',"$scope",function (auth,user,$scope) {
+.controller('signUp',['auth','user','$state',"$scope",function (auth,user,$state,$scope) {
 	console.log("signUp");
 	var self=$scope;
 	var reset=function () {
@@ -95,7 +102,6 @@ authModule
 	}
 	reset();
 	self.submit=function () {
-		console.log("clicked");
 		var data = {
 			name:self.name,
 			username:self.username,
@@ -107,8 +113,12 @@ authModule
 		var status=user.signUp(data);
 		status.then(
 			function (res) {
-				console.log(res.data);
-				reset();
+				if(res.data.status){
+					reset();
+					$state.go('studentDashboard');
+				}else{
+					console.log("err: ",res.data.message);
+				}
 			},
 			function (err) {
 				console.log(err);

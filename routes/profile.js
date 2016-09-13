@@ -1,10 +1,10 @@
 var express=require('express');
 var router=express.Router();
+var passport=require('../config/passport');
 
 router.route('/')
-	.get(function (req,res) {
-		res.send('got a get request');
-		
+	.get(passport.authenticate('jwt', { session: false}),function (req,res,next) {
+		res.send(req.user);
 	})
 	.put(function (req,res) {
 		res.send('got a put request');
