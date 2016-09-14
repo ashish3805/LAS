@@ -31,6 +31,7 @@ authModule
 	console.log("user");
 	var self = this;
 	self.signIn = function (data) {
+		console.log("s");
 		return $http.post('/signin',data)
 	};
 	self.signUp = function (data) {

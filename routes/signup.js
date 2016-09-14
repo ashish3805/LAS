@@ -16,7 +16,7 @@ router.route('/')
 			res.json({status:false,message:"Enrollment already registered!"});
 		}
 		else{
-			var user=new User(data);
+			var user = new User(data);
 			user.password=user.generateHash(data.password);
 			user.save(function (err,user) {
 				if(err)
