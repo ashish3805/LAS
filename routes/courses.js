@@ -3,9 +3,11 @@ var Question=require('../models/Question');
 var Course=require('../models/Course');
 var Assignment=require('../models/Assignment');
 var course=express.Router();
+var passport=require('../config/passport');
+
 
 course.route('/')
-	.post(function (req,res) {
+	.post(passport.authenticate('admin', { session: false}),function (req,res) {
 		var course=Course(req.body);
 		course.save(req.body,function (err,data) {
 			if(err){

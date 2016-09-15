@@ -3,7 +3,7 @@ var router=express.Router();
 var passport=require('../config/passport');
 
 router.route('/')
-	.get(passport.authenticate('jwt', { session: false}),function (req,res,next) {
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
 		res.send(req.user);
 	})
 	.put(function (req,res) {
