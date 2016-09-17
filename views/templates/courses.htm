@@ -1,0 +1,87 @@
+<div id="createCourse">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<form>
+						<div class="form-group">
+							<label for="courseName">Course Name</label>
+							<input type="text" class="form-control" name="courseName" placeholder="Enter Course Name here">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Assignment Title</th>
+						<th>Number of Questions</th>
+						<th>Total Marks</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td><!--Assignment Title--> Assignment 1</td>
+						<td><!--No. of Questions-->30</td>
+						<td><!--Total Marks-->60
+						</td>
+						<td>
+							<button class="btn btn-primary">
+								view
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-danger">
+								Remove
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td><!--Assignment Title-->Assignment 2</td>
+						<td><!--No of Questions-->10</td>
+						<td><!--Total Marks-->20
+						</td>
+						<td>
+							<button class="btn btn-primary">
+								View
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-danger">
+								Remove
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="offset-md-4 col-md-4">
+					<button class="btn btn-info btn-sm">
+						Add existing Assignment+
+					</button>
+					<button class="btn btn-success btn-sm">
+						Create Assignment
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="form-inline">
+				<button type="submit" class="btn btn-primary" ng-click="create()">
+					Save
+				</button>
+				<button class="btn btn-default">
+					Cancel
+				</button>
+				<button class="btn btn-danger">
+					Delete
+				</button>
+			</div>
+		</div>
+	</div>

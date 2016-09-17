@@ -2,28 +2,102 @@
 list all dependent modules here
 */
 angular.module('authModule',[]);
-angular.module('studentDashboard',['authModule']);
-var app=angular.module("lasApp",['ui.router','authModule','studentDashboard']);
+angular.module('codeModule',['ui.ace']);
+angular.module('studentDashboard',['authModule','codeModule']);
+angular.module('adminDashboard',['authModule','codeModule']);
+var app=angular.module("lasApp",['ui.router','authModule','studentDashboard','adminDashboard','ui.ace','codeModule']);
 
 app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
-	console.log("here");
 	$stateProvider
 	.state('signIn',{
 		url:'/signIn',
 		templateUrl:'/templates/signIn.htm',
 		controller:'signIn'
 	})
+	.state('signInAdmin',{
+		url:'/signIn/admin',
+		templateUrl:'/templates/signInAdmin.htm',
+		controller:'signInAdmin'
+	})
 	.state('signUp',{
 		url:'/signUp',
 		templateUrl:'/templates/signUp.htm',
 		controller:'signUp'
 	})
+	.state('signUpAdmin',{
+		url:'/signUp/admin',
+		templateUrl:'/templates/signUpAdmin.htm',
+		controller:'signUpAdmin'
+	})
 	.state('studentDashboard',{
+		views:{
+			'':{templateUrl:'/templates/studentDashboard.htm'}
+		},
 		url:'/studentDashboard',
-		templateUrl:'/templates/studentDashboard.htm',
 		controller:'student'
-	});
+	})
+	.state('studentDashboard.home',{
+		views:{
+			'':{templateUrl:'/templates/homeStudent.htm'}
+		},
+		url:'/studentDashboard/home',
+		controller:'student'
+	})
+	.state('studentDashboard.courses',{
+		views:{
+			'':{templateUrl:'/templates/courses.htm'}
+		},
+		url:'/studentDashboard/courses',
+		controller:'student'
+	})
+	.state('studentDashboard.profile',{
+		views:{
+			'':{templateUrl:'/templates/studentDashboard.htm'}
+		},
+		url:'/studentDashboard',
+		controller:'student'
+	})
+	.state('adminDashboard',{
+		views:{
+			'':{templateUrl:'/templates/adminDashboard.htm'}
+		},
+		url:'/adminDashboard',
+		controller:'admin'
+	})
+	.state('adminDashboard.home',{
+		views:{
+			'':{templateUrl:'/templates/homeAdmin.htm'}
+		},
+		url:'/home',
+		controller:'admin'
+	})
+	.state('adminDashboard.assignments',{
+		views:{
+			'':{templateUrl:'/templates/assignments.htm'}
+		},
+		url:'/assignments',
+		controller:'student'
+	})
+	.state('adminDashboard.courses',{
+		views:{
+			'':{templateUrl:'/templates/courses.htm'}
+		},
+		url:'/courses',
+		controller:'courses'
+	})
+	.state('adminDashboard.ide',{
+		views:{
+			'':{
+				templateUrl:'/templates/ide.htm'
+			}
+		},
+		url:'/ide',
+	})
 	$urlRouterProvider.otherwise('signIn');
-}]).controller('homeController',function ($scope){
-	$scope.user="ashish";
-});
+}])
+.controller('mainApp',['auth','$scope','$state',function (auth,$scope,$state) {
+	$scope.userLogout=function (argument) {
+		auth.logout();
+		$state.go('signIn');
+	};
+}]);

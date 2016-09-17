@@ -1,0 +1,44 @@
+	<div id="ide" ng-controller="codeEditor">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 offset-md-2">
+					<div ui-ace="{
+  theme:'chrome',
+  mode: 'c_cpp',
+  firstLineNumber: 1,
+  onLoad: aceLoaded,
+  onChange: aceChanged}" ></div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 offset-md-2">
+				<label>Input</label>
+				<textarea type="text" class="form-control" placeholder="Enter Input Here" ng-model="inputData"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 offset-md-2">
+				<label>Output</label>
+				<textarea type="text" class="form-control" placeholder="Output of your code" ng-model="outputData"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col=md-12">
+				<button class="btn btn-success btn-sm" ng-click="submit()">
+					Submit
+				</button>
+				<button class="btn btn-default btn-sm">
+					Reset
+				</button>
+			</div>
+		</div>
+	</div>
+	
+</div>

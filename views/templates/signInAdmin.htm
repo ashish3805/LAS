@@ -1,11 +1,11 @@
 <div class="container">
 	<div class="col-md-6 col-md-offset-3">
 		<div class="row">
-			<h2>Student Sign Up</h2>
+			<h2>Admin Sign In</h2>
 			<form>
 				<div class="form-group">
-					<label for="username">Email</label>
-					<input type="text" class="form-control" name="username" placeholder="Enrollment number" ng-model="username">
+					<label for="email">Email</label>
+					<input type="text" class="form-control" name="email" placeholder="Email Address" ng-model="email">
 					<label for="password">Password</label>
 					<input type="password" class="form-control" name="password" placeholder="Enter password" ng-model="password">
 				</div>
@@ -19,12 +19,8 @@
 			<button class="btn btn-success" ng-click="submit()">Submit</button>
 			</div>
 			<div class="row">
-				<div class="newuser">Not an existing user <a ui-sref="signUp">Sign up</a>
+				<div class="newuser" type="label">Not an existing admin? <a ui-sref="signUpAdmin">Sign Up Admin</a>
 				</div>
-			</div>
-			<div class="row">
-				<div class="newuser">for admins: <a ui-sref="signInAdmin">Log In</a>  Or <a ui-sref="signUpAdmin">Sign up</a>
-			</div>
 			</div>
 		</form>
 	</div>

@@ -7,7 +7,7 @@ studentDashboard
 		if(auth.isAuthed()){
 			user.getUser().then(function (res) {
 				console.log(res.data.username);
-				self.user=res.data.username;
+				self.user=res.data.name;
 			},function (err) {
 				console.log("error");
 			});

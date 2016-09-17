@@ -127,4 +127,67 @@ authModule
 			);
 	};
 
+}])
+.controller('signUpAdmin',['auth','user','$state',"$scope",function (auth,user,$state,$scope) {
+	console.log("signUp");
+	var self=$scope;
+	var reset=function () {
+		self.name=self.password=self.email=self.dept=self.contact='';
+	}
+	reset();
+	self.submit=function () {
+		var data = {
+			name:self.name,
+			password:self.password,
+			dept:self.dept,
+			email:self.email,
+			contact:self.contact
+		};
+		var status=user.signUp(data);
+		status.then(
+			function (res) {
+				if(res.data.status){
+					reset();
+					$state.go('adminDashboard');
+				}else{
+					console.log("err: ",res.data.message);
+				}
+			},
+			function (err) {
+				console.log(err);
+			}
+			);
+	};
+
+}])
+.controller('signInAdmin',['auth','user','$state','$scope',function (auth,user,$state,$scope) {
+	console.log("signIn");
+	var self=$scope;
+	var reset=function () {
+		self.email='';
+		self.password='';
+	}
+	reset();
+	self.submit=function () {
+		console.log("clicked",self.email,self.password);
+		var data={
+			email:self.email,
+			password:self.password
+		};
+		var status=user.signIn(data);
+		status.then(
+			function (res) {
+				if(res.data.status){
+					$state.go('adminDashboard.home');
+				}
+				else{
+					console.log("login error",res.data.message);
+				}
+			},
+			function (err) {
+				console.log(err);
+			});
+	}
 }]);
+
+

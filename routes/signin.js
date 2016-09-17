@@ -8,7 +8,6 @@ var router=express.Router();
 
 router.route('/')
 	.post(function (req,res,next) {
-		console.log(req);
 		User.findOne({'username':req.body.username},function (err,user) {
 			if(err){
 				res.json({status:false,message:"Database error!"});
@@ -25,7 +24,6 @@ router.route('/')
 	});
 router.route('/admin')
 	.post(function (req,res,next) {
-		console.log(req);
 		Admin.findOne({'email':req.body.email},function (err,user) {
 			if(err){
 				res.json({status:false,message:"Database error!"});
