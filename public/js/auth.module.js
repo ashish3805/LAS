@@ -41,6 +41,23 @@ authModule
 		return $http.get('/profile');
 	}
 })
+.service('admin',function ($http) {
+	console.log("admin");
+	var self = this;
+	self.signIn = function (data) {
+		console.log("s");
+		return $http.post('/signin/admin',data)
+	};
+	self.signUp = function (data) {
+		return $http.post('/signup/admin',data)
+	}
+	self.signUp = function (data) {
+		return $http.post('/signup/admin',data)
+	}
+	self.getUser = function () {
+		return $http.get('/profile/admin');
+	}
+})
 .factory('authInterceptor',['$injector',function ($injector) {
 	console.log("inter");
 	return {
@@ -128,8 +145,8 @@ authModule
 	};
 
 }])
-.controller('signUpAdmin',['auth','user','$state',"$scope",function (auth,user,$state,$scope) {
-	console.log("signUp");
+.controller('signUpAdmin',['auth','admin','$state',"$scope",function (auth,admin,$state,$scope) {
+	console.log("signUpAdmin");
 	var self=$scope;
 	var reset=function () {
 		self.name=self.password=self.email=self.dept=self.contact='';
@@ -143,10 +160,11 @@ authModule
 			email:self.email,
 			contact:self.contact
 		};
-		var status=user.signUp(data);
+		var status=admin.signUp(data);
 		status.then(
 			function (res) {
 				if(res.data.status){
+					console.log(res.data);
 					reset();
 					$state.go('adminDashboard');
 				}else{
@@ -155,12 +173,11 @@ authModule
 			},
 			function (err) {
 				console.log(err);
-			}
-			);
+			});
 	};
 
 }])
-.controller('signInAdmin',['auth','user','$state','$scope',function (auth,user,$state,$scope) {
+.controller('signInAdmin',['auth','admin','$state','$scope',function (auth,admin,$state,$scope) {
 	console.log("signIn");
 	var self=$scope;
 	var reset=function () {
@@ -174,7 +191,7 @@ authModule
 			email:self.email,
 			password:self.password
 		};
-		var status=user.signIn(data);
+		var status=admin.signIn(data);
 		status.then(
 			function (res) {
 				if(res.data.status){

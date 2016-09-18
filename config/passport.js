@@ -5,7 +5,6 @@ var User=require('../models/User');
 var JwtStrategy=require('passport-jwt').Strategy;
 var passport=require('passport');
 var ExtractJwt=require('passport-jwt').ExtractJwt;
-var User=require('../models/User');
 var Admin=require('../models/Admin');
 
 
@@ -25,12 +24,12 @@ function(jwt_payload, done) {
 	});
 }));
 
-passport.use('admin',new JwtStrategy({
+passport.use("admin",new JwtStrategy({
 	jwtFromRequest :ExtractJwt.fromAuthHeader(),
 	secretOrKey : 'apurva',
 },
 function(jwt_payload, done) {
-	User.findOne({ '_id' :jwt_payload.id}, function(err, user) {
+	Admin.findOne({ '_id' :jwt_payload.id}, function(err, user) {
 		if (err){
 			return done(err);
 		}

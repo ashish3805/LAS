@@ -3,11 +3,11 @@ var studentDashboard = angular.module('studentDashboard');
 studentDashboard
 	.controller('student',['$scope','user','auth',function ($scope,user,auth) {
 		var self=$scope;
-		self.user="";
+		self.user={};
 		if(auth.isAuthed()){
 			user.getUser().then(function (res) {
-				console.log(res.data.username);
-				self.user=res.data.name;
+				console.log(res.data);
+				self.user=res.data.message;
 			},function (err) {
 				console.log("error");
 			});
