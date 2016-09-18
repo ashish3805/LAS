@@ -15,7 +15,7 @@ router.route('/')
 			if(!user){
 				res.json({status:false,message:"Enrollment not registered!"});
 			}
-			if(!user.validPassword(req.body.password)){
+			if(!(user.validPassword(req.body.password))){
 				res.json({status:false,message:"Incorrect password!"});
 			}
 			var token=jwt.sign({id:user._id},secret,{expiresIn:'2 days'});
@@ -31,7 +31,7 @@ router.route('/admin')
 			if(!user){
 				res.json({status:false,message:"Admin not registered!"});
 			}
-			if(!user.validPassword(req.body.password)){
+			if(!(user.validPassword(req.body.password))){
 				res.json({status:false,message:"Incorrect password!"});
 			}
 			var token=jwt.sign({id:user._id},secret,{expiresIn:'2 days'});

@@ -3,9 +3,10 @@ list all dependent modules here
 */
 angular.module('authModule',[]);
 angular.module('codeModule',['ui.ace']);
+angular.module('courseModule',['authModule']);
 angular.module('studentDashboard',['authModule','codeModule']);
 angular.module('adminDashboard',['authModule','codeModule']);
-var app=angular.module("lasApp",['ui.router','authModule','studentDashboard','adminDashboard','ui.ace','codeModule']);
+var app=angular.module("lasApp",['courseModule','ui.router','authModule','studentDashboard','adminDashboard','ui.ace','codeModule']);
 
 app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 	$stateProvider
@@ -30,69 +31,50 @@ app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlR
 		controller:'signUpAdmin'
 	})
 	.state('studentDashboard',{
-		views:{
-			'':{templateUrl:'/templates/studentDashboard.htm'}
-		},
+		templateUrl:'/templates/studentDashboard.htm',
 		url:'/studentDashboard',
 		controller:'student'
 	})
 	.state('studentDashboard.home',{
-		views:{
-			'':{templateUrl:'/templates/homeStudent.htm'}
-		},
+		templateUrl:'/templates/homeStudent.htm',
 		url:'/studentDashboard/home',
 		controller:'student'
 	})
 	.state('studentDashboard.courses',{
-		views:{
-			'':{templateUrl:'/templates/courses.htm'}
-		},
+		templateUrl:'/templates/courses.htm',
 		url:'/studentDashboard/courses',
 		controller:'student'
 	})
 	.state('studentDashboard.profile',{
-		views:{
-			'':{templateUrl:'/templates/studentDashboard.htm'}
-		},
+		templateUrl:'/templates/studentDashboard.htm',
 		url:'/studentDashboard',
 		controller:'student'
 	})
 	.state('adminDashboard',{
-		views:{
-			'':{templateUrl:'/templates/adminDashboard.htm'}
-		},
+		templateUrl:'/templates/adminDashboard.htm',
 		url:'/adminDashboard',
-		controller:'admin'
+		controller:'adminCtrl'
 	})
 	.state('adminDashboard.home',{
-		views:{
-			'':{templateUrl:'/templates/homeAdmin.htm'}
-		},
+		templateUrl:'/templates/homeAdmin.htm',
 		url:'/home',
-		controller:'admin'
+		controller:'adminCtrl'
 	})
 	.state('adminDashboard.assignments',{
-		views:{
-			'':{templateUrl:'/templates/assignments.htm'}
-		},
+		templateUrl:'/templates/assignments.htm',
 		url:'/assignments',
 		controller:'student'
 	})
 	.state('adminDashboard.courses',{
-		views:{
-			'':{templateUrl:'/templates/courses.htm'}
-		},
+		templateUrl:'/templates/courses.htm',
 		url:'/courses',
-		controller:'courses'
+		controller:'courseCtrl'
 	})
 	.state('adminDashboard.ide',{
-		views:{
-			'':{
-				templateUrl:'/templates/ide.htm'
-			}
-		},
+		templateUrl:'/templates/ide.htm',
 		url:'/ide',
-	})
+		controller:"codeEditor"
+	});
 	$urlRouterProvider.otherwise('signIn');
 }])
 .controller('mainApp',['auth','$scope','$state',function (auth,$scope,$state) {
