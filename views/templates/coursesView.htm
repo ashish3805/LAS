@@ -1,0 +1,45 @@
+<div>
+	<div class="container">
+		<form id="searchCourse" class="form-inline">
+			Search All Courses
+			<div class="form-group">
+				<input type="text" name="courseName" class="form-control" placeholder="Course Name">
+			</div>
+			Or
+			<div class="form-group">
+				<input type="text" name="courseCode" class="form-control" placeholder="Course Code">
+			</div>
+		</form>
+	</div>
+<div class="container" id="courseList">
+	<h4>Enrolled Courses</h4>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Code</th>
+					<th>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="course in enrolledCourses track by course._id">
+					<td>{{course.code}}</td>
+					<td>{{course.name}}</td>
+					<td><!--No. of Questions-->30</td>
+					<td><!--Total Marks-->60
+					</td>
+					<td>
+						<button class="btn btn-primary" ui-sref="studentDashboard.assignments({course:course._id})">
+							View
+						</button>
+					</td>
+					<td>
+						<button class="btn btn-danger" ng-click="deleteCourse(course._id)">
+							Delete
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

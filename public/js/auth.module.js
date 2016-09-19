@@ -31,7 +31,6 @@ authModule
 	console.log("user");
 	var self = this;
 	self.signIn = function (data) {
-		console.log("s");
 		return $http.post('/signin',data)
 	};
 	self.signUp = function (data) {
@@ -45,12 +44,8 @@ authModule
 	console.log("admin");
 	var self = this;
 	self.signIn = function (data) {
-		console.log("s");
 		return $http.post('/signin/admin',data)
 	};
-	self.signUp = function (data) {
-		return $http.post('/signup/admin',data)
-	}
 	self.signUp = function (data) {
 		return $http.post('/signup/admin',data)
 	}
@@ -79,9 +74,11 @@ authModule
     }
 }
 }])
-.controller('signIn',['auth','user','$state','$scope',function (auth,user,$state,$scope) {
+.controller('signIn',['auth','user','$state','$scope','$window',function (auth,user,$state,$scope,$window) {
 	console.log("signIn");
 	var self=$scope;
+	self.username='';
+	self.password='';
 	var reset=function () {
 		self.username='';
 		self.password='';
@@ -93,11 +90,13 @@ authModule
 			username:self.username,
 			password:self.password
 		};
+		console.log(data);
 		var status=user.signIn(data);
 		status.then(
 			function (res) {
 				if(res.data.status){
-					$state.go('studentDashboard');
+					$window.localStorage['lasUser'] = angular.toJson(res.data.message);
+					$state.go('studentDashboard.home');
 				}
 				else{
 					console.log("login error",res.data.message);
@@ -112,9 +111,10 @@ authModule
 	console.log("config");
 	$httpProvider.interceptors.push('authInterceptor');
 })
-.controller('signUp',['auth','user','$state',"$scope",function (auth,user,$state,$scope) {
+.controller('signUp',['auth','user','$state',"$scope",'$window',function (auth,user,$state,$scope,$window) {
 	console.log("signUp");
 	var self=$scope;
+	self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	var reset=function () {
 		self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	}
@@ -132,8 +132,9 @@ authModule
 		status.then(
 			function (res) {
 				if(res.data.status){
+					$window.localStorage['lasUser'] = res.data.message;
 					reset();
-					$state.go('studentDashboard');
+					$state.go('studentDashboard.home');
 				}else{
 					console.log("err: ",res.data.message);
 				}
@@ -164,9 +165,10 @@ authModule
 		status.then(
 			function (res) {
 				if(res.data.status){
+					$window.localStorage['lasUser'] = res.data.message;
 					console.log(res.data);
 					reset();
-					$state.go('adminDashboard');
+					$state.go('adminDashboard.home');
 				}else{
 					console.log("err: ",res.data.message);
 				}
@@ -177,7 +179,7 @@ authModule
 	};
 
 }])
-.controller('signInAdmin',['auth','admin','$state','$scope',function (auth,admin,$state,$scope) {
+.controller('signInAdmin',['auth','admin','$state','$scope','$window',function (auth,admin,$state,$scope,$window) {
 	console.log("signIn");
 	var self=$scope;
 	var reset=function () {
@@ -195,6 +197,7 @@ authModule
 		status.then(
 			function (res) {
 				if(res.data.status){
+					$window.localStorage['lasUser'] = res.data.message;
 					$state.go('adminDashboard.home');
 				}
 				else{

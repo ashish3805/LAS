@@ -39,17 +39,6 @@ adminSchema.methods.addCourse= function (courseDetail) {
 	return this.courses;
 };
 
-adminSchema.methods.addCourse= function (courseDetail) {
-	var course= new Course(courseDetail);
-	course.save(function (err, newCourse) {
-		if(err){
-
-		}
-		else{
-			this.courses.push(newCourse._id);
-		}
-	});
-};
 
 var Admin=mongoose.model('Admin',adminSchema);
 module.exports=Admin;
