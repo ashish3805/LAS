@@ -1,0 +1,31 @@
+	<div id="assignmentsAll">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h3>All Assignments</h3>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Due Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="assignment in assignmentsAll track by assignment._id">
+						<td>{{assignment.title}}</td>
+						<td>{{assignment.due}}</td>
+
+						<td>
+							<button class="btn btn-success" ui-sref="adminDashboard.questions({assignment:assignment._id,course:''})">
+								Questions
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>

@@ -1,6 +1,6 @@
 var codeModule=angular.module('codeModule');
 
-codeModule.controller('codeEditor',['$scope','code',function ($scope,code) {
+codeModule.controller('codeEditor',['$scope','code','$window',function ($scope,code,$window) {
     $scope.inputData="";
     $scope.outputData="";
 	$scope.aceLoaded = function(_editor){
@@ -8,16 +8,22 @@ codeModule.controller('codeEditor',['$scope','code',function ($scope,code) {
     	var _session = _editor.getSession();
     	var _renderer = _editor.renderer;
     	//var _mode=_session.setMode("ace/mode/c_cpp");
-    	var initial = _editor.setValue("#include<stdio.h>\nint main(){\n\n}");
+        if($window.localStorage['lasCode']){
+            _editor.setValue($window.localStorage['lasCode']);
+        }else{
+            _editor.setValue("#include<stdio.h>\nint main(){\n\n}");
+        }
 
     	// Options
     	_editor.setReadOnly(false);
     	_session.setUndoManager(new ace.UndoManager());
-    	_renderer.setShowGutter(false);
+    	_renderer.setShowGutter(true);
 
     	// Events
     	_editor.on("changeSession", function(){ });
-    	_session.on("change", function(){ });
+    	_session.on("change", function(){ 
+            $window.localStorage['lasCode']=_editor.getValue();
+        });
     	$scope.submit=function () {
     		var data={
     			code: _editor.getValue(),
@@ -34,6 +40,11 @@ codeModule.controller('codeEditor',['$scope','code',function ($scope,code) {
     			}
     		});
     	}
+        $scope.reset=function () {
+            _editor.setValue("#include<stdio.h>\nint main(){\n\n}");
+            $scope.inputData="";
+            $scope.outputData="";
+        }
     };
 }])
 .service('code',function ($http) {

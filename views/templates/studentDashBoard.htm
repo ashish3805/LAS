@@ -1,26 +1,21 @@
-<div class="container" id="navigation">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="nav nav-tabs navbar-right">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a ui-href="#">IDE</a></li>
-				<li><a ui-href="#">Assignmets</a></li>
-				<li><a ui-href="#">Performance</a></li>
-				<li><a ui-href="#">Account</a></li>
-				<li><a ui-href="#">Log Out</a></li>
-			</ul>
-		</div>
-	</div>
-</div>
 
-<ui-view></ui-view>
+<nav ng-controller="headerController">
+	<ul class="nav nav-tabs navbar-right">
+		<li ng-class="{ active: isActive('/studentDashboard/home')}"><a ui-sref=".home">Home</a></li>
+		<li ng-class="{ active: isActive('/studentDashboard/ide')}"><a ui-sref=".ide">IDE</a></li>
+		<li ng-class="{ active: isActive('/studentDashboard/courses')}"><a ui-sref=".courses">Courses</a></li>
+		<li ng-class="{ active: isActive('/studentDashboard/assignments')}"><a ui-sref=".assignmentsAll">Assignments</a></li>
+		<li ng-class="{ active: isActive('/studentDashboard/performance')}"><a ui-sref=".performance">Performance</a></li>
+		<li ng-class="{ active: isActive('/studentDashboard/account')}"><a ui-sref=".account">Account</a></li>
+		<li><a ng-click="userLogout()">Log Out</a></li>
+	</ul>
+</nav>
 
-<div class="container" id="footer">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="navbar navbar-default">
-				<small>LAS   All Rights Reserved.</small>
-			</div>
-		</div>
+<div ui-view id="mainContent"></div>
+
+<footer class="footer">
+	<div class="container">
+		<p class="text-muted">Lab Automation Software (LAS). Developed by: Apurva, Ananya, Ashish, Abhimanyu
+		</p>
 	</div>
-</div>
+</footer>

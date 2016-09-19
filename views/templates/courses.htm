@@ -8,7 +8,7 @@
 						<input type="text" class="form-control" name="courseName" placeholder="Enter Course Name here" ng-model="data.name">
 					</div>
 					<div class="form-group">
-						<label>Input</label>
+						<label>Description</label>
 						<textarea type="text" class="form-control" placeholder="Description" ng-model="data.desc">
 						</textarea>
 					</div>
@@ -43,11 +43,11 @@
 				<tr ng-repeat="course in courses track by course._id">
 					<td>{{course.code}}</td>
 					<td>{{course.name}}</td>
-					<td><!--No. of Questions-->30</td>
-					<td><!--Total Marks-->60
+					<td><!--No. of Questions-->0</td>
+					<td><!--Total Marks-->0
 					</td>
 					<td>
-						<button class="btn btn-primary">
+						<button class="btn btn-primary" ui-sref="adminDashboard.assignments({course:course._id})">
 							View
 						</button>
 					</td>
@@ -59,17 +59,5 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="offset-md-4 col-md-4">
-				<button class="btn btn-info btn-sm">
-					Add existing Assignment+
-				</button>
-				<button class="btn btn-success btn-sm">
-					Create Assignment
-				</button>
-			</div>
-		</div>
 	</div>
 </div>
