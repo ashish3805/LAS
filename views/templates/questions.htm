@@ -1,0 +1,63 @@
+	<div id="questions">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<label>Questions</label>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<form>
+						<div class="form-group">
+							<label for="questionTitle">Question Number</label>
+							<input type="number" class="form-control" name="questionNumber" placeholder="Enter Question Number" ng-model="data.number">
+						</div>
+						<div class="form-group">
+							<label for="marks">Marks</label>
+							<input type="number" class="form-control" name="marks" placeholder="" ng-model="data.marks">
+						</div>
+						<div class="form-group">
+							<label>Input</label>
+							<textarea type="text" class="form-control" placeholder="Enter Input Here" ng-model="inputData"></textarea>
+						</div>
+						<div class="form-group" id="questionActions">
+							<button type="submit" class="btn btn-primary" ng-click="createQuestion()">
+								Save
+							</button>
+							<button class="btn btn-default" ng-click="resetQuestionForm()">
+								Reset
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Number</th>
+						<th>Marks</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="qsn in questions track by qsn._id">
+						<td>{{qsn.number}}</td>
+						<td>{{qsn.marks}}</td>
+						<td>
+							<button class="btn btn-success" ui-sref="adminDashboard.solutions({question:qsn._id,course:course,assignment:assignment})">
+								Solutions
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-danger" ng-click="deleteQuestion(qsn._id)">
+								Remove
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>

@@ -1,3 +1,3 @@
 # LAS
 
-will update it soon
+Version 1.0: Authentication Enabled, IDE working 

@@ -33,6 +33,7 @@ router.route('/')
 router.route('/admin')
 .post(function (req,res,next) {
 	var data=req.body;
+	console.log(req.body);
 	Admin.findOne({'email':data.email},function (err,user) {
 		if(err){
 			res.json({status:false,message:"Error sigining up!"});
@@ -53,6 +54,9 @@ router.route('/admin')
 			});
 		}
 	});
+	Admin.find({},function (err,data) {
+		console.log(data);
+	})
 });
 
 module.exports=router;

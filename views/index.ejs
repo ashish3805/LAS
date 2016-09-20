@@ -7,12 +7,20 @@
 	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 	<title>Student Dashboard</title>
 </head>
-<body ng-app="lasApp">
-<ui-view></ui-view>
+<body ng-app="lasApp" ng-controller="mainApp">
+	<ui-view></ui-view>
 </body>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-ace/ui-ace.js"></script>
+<script type="text/javascript" src="js/ui-bootstrap-2.1.3.min.js"></script>
 <script type="text/javascript" src="js/lasApp.js"></script>
 <script type="text/javascript" src="js/auth.module.js"></script>
 <script type="text/javascript" src="js/studentDashboard.module.js"></script>
+<script type="text/javascript" src="js/adminDashboard.module.js"></script>
+<script type="text/javascript" src="js/code.module.js"></script>
+<script type="text/javascript" src="js/question.module.js"></script>
+<script type="text/javascript" src="js/assignment.module.js"></script>
+<script type="text/javascript" src="js/course.module.js"></script>
 </html>

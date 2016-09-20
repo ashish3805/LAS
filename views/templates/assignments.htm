@@ -1,0 +1,50 @@
+	<div id="assignments">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<form>
+						<div class="form-group">
+							<label for="assignmentTitle">Assignment Title</label>
+							<input type="text" class="form-control" name="assignmentTitle" placeholder="Enter Assignment Title here" ng-model="data.title">
+							<label for="dueDate">Due Date</label>
+							<input type="date" class="form-control" name="dueDate" placeholder="" ng-model="data.due">
+						</div>
+						<div class="form-group" id="assignmentActions">
+							<button type="submit" class="btn btn-primary" ng-click="createAssignment()">
+								Save
+							</button>
+							<button class="btn btn-default" ng-click="resetAssignmentForm()">
+								Reset
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Due Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="assignment in assignments track by assignment._id">
+						<td>{{assignment.title}}</td>
+						<td>{{assignment.due}}</td>
+						<td>
+							<button class="btn btn-success" ui-sref="adminDashboard.questions({assignment:assignment._id,course:course})">
+								Questions
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-danger" ng-click="deleteAssignment(assignment._id)">
+								Remove
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>

@@ -1,0 +1,21 @@
+
+<nav  ng-controller="headerController">
+	<ul class="nav nav-tabs navbar-right" >
+		<li ng-class="{ active: isActive('/adminDashboard/home')}"><a ui-sref=".home">Home</a></li>
+		<li ng-class="{ active: isActive('/adminDashboard/ide')}"><a ui-sref=".ide">IDE</a></li>
+		<li ng-class="{ active: isActive('/adminDashboard/courses')}"><a ui-sref=".courses">Courses</a></li>
+		<li ng-class="{ active: isActive('/adminDashboard/assignments/all')}"><a ui-sref=".assignmentsAll">Assignments</a></li>
+		<li ng-class="{ active: isActive('/adminDashboard/performance')}"><a ui-sref=".performance">Performance</a></li>
+		<li ng-class="{ active: isActive('/adminDashboard/account')}"><a ui-sref=".account">Account</a></li>
+		<li><a ng-click="userLogout()">Log Out</a></li>
+	</ul>
+</nav>
+
+<div ui-view id="mainContent"></div>
+
+<footer class="footer">
+	<div class="container">
+		<p class="text-muted">Lab Automation Software (LAS). Developed by: Apurva, Ananya, Ashish, Abhimanyu
+		</p>
+	</div>
+</footer>

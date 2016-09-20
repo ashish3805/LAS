@@ -1,0 +1,63 @@
+<div id="courseCon">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<form id= "createCourse">
+					<div class="form-group">
+						<label for="courseName">Course Name</label>
+						<input type="text" class="form-control" name="courseName" placeholder="Enter Course Name here" ng-model="data.name">
+					</div>
+					<div class="form-group">
+						<label>Description</label>
+						<textarea type="text" class="form-control" placeholder="Description" ng-model="data.desc">
+						</textarea>
+					</div>
+					<div class="form-group">
+						<label for="courseCode">Course Code</label>
+						<input type="text" class="form-control" name="courseCode" placeholder="Ex. IT201"  ng-model="data.code">
+					</div>
+					<div class="form-group" id="courseActions">
+						<button type="submit" class="btn btn-primary" ng-click="createCourse()">
+							Save
+						</button>
+						<button class="btn btn-default" ng-click="resetCourseForm()">
+							Reset
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container" id="courseList">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Assignment Title</th>
+					<th>Number of Questions</th>
+					<th>Total Marks</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="course in courses track by course._id">
+					<td>{{course.code}}</td>
+					<td>{{course.name}}</td>
+					<td><!--No. of Questions-->0</td>
+					<td><!--Total Marks-->0
+					</td>
+					<td>
+						<button class="btn btn-primary" ui-sref="adminDashboard.assignments({course:course._id})">
+							View
+						</button>
+					</td>
+					<td>
+						<button class="btn btn-danger" ng-click="deleteCourse(course._id)">
+							Delete
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
