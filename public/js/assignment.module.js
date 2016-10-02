@@ -103,4 +103,31 @@ assignment
         },logError);
     }
     self.userAssignmentsAll();
+}])
+.service('assignmentSrvStu',function ($http) {
+    var self= this;
+    self.userAssignmentsAll=function ( ){
+        return $http.get("/users/courses/assignments/");
+    }
+})
+.controller('assignmentCtrlAllStu',['$scope','user','auth','assignmentSrvStu',function ($scope,user,auth,assignment) {
+    console.log("all init");
+        var logError=function (err) {
+        console.log("Error: "+err);
+    };
+    var self=$scope;
+    self.assignmentsAll=[];
+    self.userAssignmentsAll=function () {
+        assignment.userAssignmentsAll().then(function (res) {
+            if(res.data.status){
+                console.log(res.data.message);
+                angular.copy(res.data.message, self.assignmentsAll);
+                console.log(self.assignmentsAll);
+            }else{
+                console.log(res.data.message);
+            }
+        },logError);
+    }
+    self.userAssignmentsAll();
 }]);
+

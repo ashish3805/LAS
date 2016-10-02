@@ -34,18 +34,14 @@
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>Assignment Title</th>
-					<th>Number of Questions</th>
-					<th>Total Marks</th>
+					<th>Code</th>
+					<th>Name</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="course in courses track by course._id">
 					<td>{{course.code}}</td>
 					<td>{{course.name}}</td>
-					<td><!--No. of Questions-->0</td>
-					<td><!--Total Marks-->0
-					</td>
 					<td>
 						<button class="btn btn-primary" ui-sref="adminDashboard.assignments({course:course._id})">
 							View

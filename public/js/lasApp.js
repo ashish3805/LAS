@@ -1,6 +1,7 @@
 /*Main Module
 list all dependent modules here
 */
+
 angular.module('authModule',[]);
 angular.module('codeModule',['ui.ace']);
 angular.module('questionModule',['authModule']);
@@ -52,10 +53,25 @@ app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlR
 		url:'/profile',
 		controller:'student'
 	})
+	.state('studentDashboard.questions',{
+		templateUrl:'/templates/questionsStu.htm',
+		url:'/:course/assignments/:assignment/questions',
+		controller:'questionCtrl'
+	})
 	.state('studentDashboard.ide',{
 		templateUrl:'/templates/ide.htm',
 		url:'/ide',
 		controller:"codeEditor"
+	})
+	.state('studentDashboard.assignments',{
+		templateUrl:'/templates/assignmentsStu.htm',
+		url:'/:course/assignments',
+		controller:'assignmentCtrl'
+	})
+	.state('studentDashboard.assignmentsAll',{
+		templateUrl:'/templates/assignmentsAllStu.htm',
+		url:'/user/assignments/all',
+		controller:'assignmentCtrlAllStu'
 	})
 	.state('adminDashboard',{
 		templateUrl:'/templates/adminDashboard.htm',

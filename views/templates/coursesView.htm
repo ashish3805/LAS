@@ -1,41 +1,87 @@
 <div>
 	<div class="container">
+		<div class="jumbotron" style="padding-bottom: 20px;" ng-show="dispCourse.name">
+			<div class="row">
+				<h3>{{dispCourse.name}}</h3>
+				<div class="col-md-12">
+					<p style="font-size: 14px;">{{dispCourse.desc}}</p>
+				</div>
+			</div>
+			<div class="row">
+			<div class="col-sm-6">
+					<button class="btn btn-primary" ng-click="addCourse(dispCourse)" >	
+						Enroll
+					</button>
+				</div>
+				<div class="col-sm-6">
+					<button class="btn btn-danger" ng-click="hideCourse()" >	
+						Dismiss
+					</button>
+				</div>
+			</div>
+		</div>
 		<form id="searchCourse" class="form-inline">
 			Search All Courses
 			<div class="form-group">
-				<input type="text" name="courseName" class="form-control" placeholder="Course Name">
+				<input type="text" name="courseName" class="form-control" placeholder="Course Name" ng-model="search.name" ng->
 			</div>
 			Or
 			<div class="form-group">
-				<input type="text" name="courseCode" class="form-control" placeholder="Course Code">
+				<input type="text" name="courseCode" class="form-control" placeholder="Course Code" ng-model="search.code">
 			</div>
 		</form>
+		<div id="searchResult">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="course in allCourses | filter:search | limitTo:courseDispNum" >
+						<td>{{course.code}}</td>
+						<td>{{course.name}}</td>
+						</td>
+						<td>
+							<button class="btn btn-primary" ng-click="showCourse(course)">
+								View
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="row">
+				<div class="col-md-12">
+					<button class="btn btn-default" ng-click="showMore()" style="display: block; width: 100%;">
+						{{showMoreText}}
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
-<div class="container" id="courseList">
-	<h4>Enrolled Courses</h4>
+	<div class="container" id="courseList">
+		<h4>Enrolled Courses</h4>
 		<table class="table">
 			<thead>
 				<tr>
-					<th>#</th>
 					<th>Code</th>
 					<th>Name</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="course in enrolledCourses track by course._id">
+				<tr ng-repeat="course in enrolledCourses track by $index">
 					<td>{{course.code}}</td>
 					<td>{{course.name}}</td>
-					<td><!--No. of Questions-->30</td>
-					<td><!--Total Marks-->60
 					</td>
 					<td>
 						<button class="btn btn-primary" ui-sref="studentDashboard.assignments({course:course._id})">
-							View
+							Assignments
 						</button>
 					</td>
 					<td>
-						<button class="btn btn-danger" ng-click="deleteCourse(course._id)">
-							Delete
+						<button class="btn btn-danger" ng-click="removeCourse(course._id)">
+							Unenroll
 						</button>
 					</td>
 				</tr>

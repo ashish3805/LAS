@@ -82,29 +82,60 @@ course
 .service('courseStuSrv',function ($http) {
 	var self= this;
 	self.addCourse=function (data) {
-		return $http.post("/courses/student",data);
+		return $http.post("/users/courses",data);
 	}
 	self.getCourse=function (c_id) {
-		return $http.get("/courses/"+c_id);
+		return $http.get("/users/courses/"+c_id);
 	}
 	self.getEnrolledCourses=function () {
-		return $http.get("/courses/student");
+		return $http.get("/users/courses");
 	}
 	self.getAllCourses=function () {
 		return $http.get("/courses/all");
 	}
 	self.removeCourse=function (c_id) {
-		return $http.delete("/courses/student"+c_id);
+		return $http.delete("/users/courses/"+c_id);
 	}
 })
 .controller('courseStuCtrl',['$scope','user','auth','courseStuSrv',function ($scope,user,auth,course,$http) {
 	var self=$scope;
 	self.allCourses=[];
 	self.enrolledCourses=[];
-	self.addCourse=function (course) {
-		course.addCourse(course).then(function (res) {
+	self.search={
+		name:"",
+		code:""
+	};
+	self.dispCourse={
+		name:'',
+		desc:''
+	};
+	self.courseDispNum=4;
+	self.showMoreText="Show More";
+	self.showMore=function () {
+		if(self.showMoreText=="Show More"){
+				self.courseDispNum+=3;
+		}else if(self.showMoreText=="Show Less"){
+				self.courseDispNum-=3;
+		}
+		if(self.courseDispNum<=4){
+			self.showMoreText="Show More";
+		}
+		else if(self.courseDispNum>=self.allCourses.length){
+			self.showMoreText="Show Less";
+		}
+	};
+	self.showCourse=function (courseData) {
+		angular.copy(courseData,self.dispCourse);
+	};
+	self.hideCourse=function (courseData) {
+		self.dispCourse.name='';
+	}
+	self.addCourse=function (courseData) {
+		console.log("adding course: ",courseData)
+		course.addCourse(courseData).then(function (res) {
 			if(res.data.status){
-				enrolledCourses.push(res.data.message);
+				console.log("added course: ",res.data.message);
+				self.enrolledCourses.push(res.data.message);
 			}else{
 				console.log(res.data.message);
 			}
@@ -115,6 +146,7 @@ course
 	self.getEnrolledCourses=function () {
 		course.getEnrolledCourses().then(function (res) {
 			if(res.data.status){
+				console.log("enrooled: ",res.data.message)
 				angular.copy(res.data.message,self.enrolledCourses);
 			}else{
 				console.log(res.data.message);
@@ -145,7 +177,9 @@ course
 			}else{
 				console.log(res.data.message);
 			}
-		},logError);
+		},function (err) {
+			console.log(err);
+		});
 	};
 	self.getCourse=function (c_id) {
 		course.getCourse(c_id).then(function (res) {

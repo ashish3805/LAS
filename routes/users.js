@@ -1,125 +1,143 @@
-var express = require('express');
-var router = express.Router();
+var express=require('express');
+var passport=require('../config/passport');
+var User=require('../models/User');
+var Course=require('../models/Course');
+var users=express.Router();
+var Assignment=require('../models/Assignment');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('got a get request');
-});
+users.route('/')
+	//route to get the user
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		User.findById(req.user._id,function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}
+			else{
+				res.json({status:"true",message:data})
+			}
+		});
+	})
+	//remove the user
+	.delete(passport.authenticate('user', { session: false}),function (req,res,next) {
+		User.findByIdAndRemove(req.params.id,function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}else{
+				res.json({status:"true",message:data});
+			}
+		});
+	});
 
-course.use('/:course/assignments',assignments);
-user.route('/course')
-.post(passport.authenticate('user', { session: false}),function (req,res) {
-	var course=Course(req.body);
-	course.save(function (err,data) {
-		if(err){
-			
-			res.json({status:false,message:err});
-		}else{
-			
-			User.findByIdAndUpdate(req.user._id, { $push: {"courses": data._id }},{new:true},function (err,userData){
-					if(err){
-						res.json({status:false,message:err});
-					}else{
-						res.send({status:true,message:data});
-						console.log(userData);
+	users.route('/all')
+	//route to get all users
+	.get(function (req,res,next) {
+		User.find({},function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}
+			else{
+				res.json({status:"true",message:data})
+			}
+		});
+	});
+
+	users.route('/courses')
+	//add a new course to user's enrolled list of courses.
+	.post(passport.authenticate('user', { session: false}),function (req,res,next) {
+		User.findByIdAndUpdate(req.user._id, { $push: {"courses": req.body._id }},{new:true},function (err,userData){
+			if(err){
+				res.json({status:false,message:err});
+			}else{
+				res.send({status:true,message:req.body});
+			}
+		});
+	})
+	//get all courses enrolled.
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		User.findById(req.user._id).populate('courses').exec(function (err,userData){
+			if(err){
+				res.json({status:false,message:err});
+			}else{
+				res.send({status:true,message:userData.courses});
+			}
+		});
+	});
+
+	users.route('/courses/assignments')
+	//get all assignments
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		User.findById(req.user._id).populate({path:'courses',populate:{path:'assignments'}}).exec(function (err,userData){
+			if(err){
+				res.json({status:false,message:err});
+			}else{
+				var resData=[];
+				for (var i = userData.courses.length - 1; i >= 0; i--) {
+					for (var j = userData.courses[i].assignments.length - 1; j >= 0; j--) {
+						resData.push(userData.courses[i].assignments[j]);
 					}
-			});
-		};
-	});
-})
-.get(passport.authenticate('admin', { session: false}),function (req,res) {
-	User.findById(req.user._id).populate('courses').exec(function (err,data) {
-		if(err){
-			res.josn({status:false,message:err});
-		}
-			res.json({status:true,message:data.courses});
-	});
-});
-
-course.route('/:id')
-.put(passport.authenticate('admin', { session: false}),function (req,res) {
-	console.log("put");
-	res.send("put");
-})
-.delete(passport.authenticate('admin', { session: false}),function (req,res) {
-	console.log("delete  ", req.params.id);
-	Course.findByIdAndRemove(req.params.id, function (err,data) {
-		if(err){
-			console.log(err);
-			res.json({status:false,message:err});
-		}else{
-			Admin.findByIdAndUpdate(req.user._id,{ $pop: {"courses": req.params.id }},{new:true}, function (err,data) {
-				if(err){
-					console.log(err);
-					res.json({status:false,message:err});
-				}else{
-					console.log(data);
-					res.send({status:true,message:data});
 				}
-			});
-		}
+				res.send({status:true,message:resData});
+			}
+		});
 	});
-})
-.get(function (req,res) {
-	console.log("get "+req.params.id);
-	Course.findById(req.params.id).populate({path:'assignments'}).exec(function (err,data) {
-		if(err){
-			console.log(err);
-			res.json({status:false,message:err});
-		}else{
-			console.log(data);
-			res.send({status:true,message:data});
-		}
-	});
-});
 
-course.route('/all')
-.get(function (req,res,next){
-	Course.find({},function (err,data) {
-		if(err){
-			console.log(err);
-			res.json({status:false,message:err});
-		}else{
-			console.log(data);
-			res.send({status:true,message:data});
-		}
-	});
-});
+	users.route('/courses/check/:course')
+	.get(function (req,res,next) {
+		// body...
+	})
 
-course.route('/student')
-.get(passport.authenticate('user', { session: false}),function (req,res,next){
-	User.findById(rq.user._id).populate({path:'courses'}).exec(function (err,data) {
-		if(err){
-			console.log(err);
-			res.json({status:false,message:err});
-		}else{
-			console.log(data);
-			res.send({status:true,message:data.courses});
-		}
+	users.route('/courses/:course')
+	//get details about a specific course
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		Course.findById(req.params.course).populate('assignments').exec(function (err,userData){
+			if(err){
+				res.json({status:false,message:err});
+			}else{
+				res.send({status:true,message:userData});
+			}
+		});
+	})
+	//add a new course to user's enrolled list of courses.
+	.post(passport.authenticate('user', { session: false}),function (req,res,next) {
+		User.findByIdAndUpdate(req.user._id, { $push: {"courses": req.params.course }},{new:true},function (err,userData){
+			if(err){
+				res.json({status:false,message:err});
+			}else{
+				res.send({status:true,message:userData});
+			}
+		});
+	})
+	.delete(passport.authenticate('user', { session: false}),function (req,res,next) {
+		User.findByIdAndUpdate(req.user._id, { $pop: {"courses": req.params.course }},{new:true},function (err,userData){
+			if(err){
+				res.json({status:false,message:err});
+			}else{
+				res.send({status:true,message:userData});
+			}
+		});
 	});
-})
-.post(passport.authenticate('user', { session: false}),function (req,res,next){
-	User.findByIdAndUpdate(req.user._id, { $push: {"courses": req.body.course }},{new:true},function (err,userData){
-					if(err){
-						res.json({status:false,message:err});
-					}else{
-						res.send({status:true,message:req.body});
-					}
-			});
-});
 
-course.route('/student/:id')
-.delete(passport.authenticate('user', { session: false}),function (req,res) {
-	console.log("delete  ", req.params.id);
-	User.findByIdAndUpdate(req.user._id,{ $pop: {"courses": req.params.id }},{new:true}, function (err,data) {
-		if(err){
-			console.log(err);
-			res.json({status:false,message:err});
-		}else{
-			console.log(data);
-			res.send({status:true,message:data});
-		}
+	users.route('/courses/:course/assignments/:assignment')
+	//get details about a specific assignmnet
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		Assignment.findById(req.params.assignment).populate('questions').exec(function (err,userData){
+			if(err){
+				res.json({status:false,message:err});
+			}else{
+				res.send({status:true,message:userData});
+			}
+		});
 	});
-});
 
-module.exports = router;
+	users.route('/:id')
+	//get a specific user. determined by id.
+	.get(function (req,res,next) {
+		User.findById(req.params.id,function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}else{
+				res.json({status:"true",message:data});
+			}
+		});
+	});
+	module.exports = users;

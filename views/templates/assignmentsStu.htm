@@ -1,0 +1,23 @@
+	<div id="assignments">
+		<div class="container">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Due Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="assignment in assignments track by assignment._id">
+						<td>{{assignment.title}}</td>
+						<td>{{assignment.due}}</td>
+						<td>
+							<button class="btn btn-success" ui-sref="studentDashboard.questions({assignment:assignment._id,course:course})">
+								Questions
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>

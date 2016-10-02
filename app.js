@@ -20,6 +20,7 @@ var courses=require('./routes/courses');
 var solutions=require('./routes/solutions');
 var signin=require('./routes/signin');
 var signup=require('./routes/signup');
+var admin=require('./routes/admin');
 
 
 var mongoose= require('mongoose');
@@ -72,6 +73,7 @@ app.use('/courses',courses);
 app.use('/solutions',solutions);
 app.use('/signin',signin);
 app.use('/signup',signup);
+app.use('/admin',admin);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

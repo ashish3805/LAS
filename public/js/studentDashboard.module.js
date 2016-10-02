@@ -5,11 +5,11 @@ studentDashboard
 	var self=$scope;
 	self.user={};
 	if(auth.isAuthed()){
-		console.log("authed");
+		/*console.log("authed");
 		if($window.localStorage['lasUser']){
 			console.log("copied from local",JSON.parse($window.localStorage['lasUser']));
 			angular.copy(JSON.parse($window.localStorage['lasUser']),self.user);
-		}else{
+		}else{*/
 			user.getUser().then(function (res) {
 				console.log("copied from server");
 				$window.localStorage['lasUser'] = res.data.message;
@@ -18,7 +18,7 @@ studentDashboard
 			},function (err) {
 				$state.go('signIn');
 			});
-		}
+		//}
 	}else{
 		console.log("not authed");
 		$state.go('signIn');

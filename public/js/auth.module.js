@@ -146,7 +146,7 @@ authModule
 	};
 
 }])
-.controller('signUpAdmin',['auth','admin','$state',"$scope",function (auth,admin,$state,$scope) {
+.controller('signUpAdmin',['auth','admin','$state',"$scope",'$window',function (auth,admin,$state,$scope,$window) {
 	console.log("signUpAdmin");
 	var self=$scope;
 	var reset=function () {

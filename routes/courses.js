@@ -9,6 +9,18 @@ var User=require('../models/User');
 var assignments=require('./assignments');
 
 course.use('/:course/assignments',assignments);
+course.route('/all')
+.get(function (req,res,next){
+	Course.find({},function (err,data) {
+		if(err){
+			console.log(err);
+			res.json({status:false,message:err});
+		}else{
+			console.log(data);
+			res.send({status:true,message:data});
+		}
+	});
+});
 course.route('/')
 .post(passport.authenticate('admin', { session: false}),function (req,res) {
 	var course=Course(req.body);
@@ -34,8 +46,9 @@ course.route('/')
 	Admin.findById(req.user._id).populate('courses').exec(function (err,data) {
 		if(err){
 			res.josn({status:false,message:err});
-		}
+		}else{
 			res.json({status:true,message:data.courses});
+		}
 	});
 });
 
@@ -76,18 +89,7 @@ course.route('/:id')
 	});
 });
 
-course.route('/all')
-.get(function (req,res,next){
-	Course.find({},function (err,data) {
-		if(err){
-			console.log(err);
-			res.json({status:false,message:err});
-		}else{
-			console.log(data);
-			res.send({status:true,message:data});
-		}
-	});
-});
+
 
 course.route('/student')
 .get(passport.authenticate('user', { session: false}),function (req,res,next){

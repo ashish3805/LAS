@@ -1,4 +1,3 @@
-
 var question=angular.module('questionModule');
 question
 .controller('questionCtrl',['$scope','$stateParams','user','auth','questionSrv',function ($scope,$stateParams,user,auth,question,$http) {
