@@ -1,32 +1,32 @@
 <div class="container">
-	<div class="col-md-6 col-md-offset-3">
-		<div class="row">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
 			<h2>Student Sign In</h2>
-			<form>
-				<div class="form-group">
+			<form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+				<div class="form-group" class="has-error">
+				<p ng-show="userForm.submitted && userForm.checked  && userForm.hasError" style="color: red">{{userForm.error}}</p>
+				</div>
+				<div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && userForm.username.$touched && !userForm.username.$pristine }">
 					<label for="username">Enrollment</label>
-					<input type="text" class="form-control" name="username" placeholder="Enrollment number" ng-model="username">
+					<input type="text" class="form-control" name="username" placeholder="Enrollment number" ng-model="username" ng-minlength="1" required>
+					<p ng-show="userForm.username.$invalid && userForm.username.$touched  && !userForm.username.$pristine" class="help-block">Your enrollement is required.</p>
+				</div>
+				<div class="form-group" ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine && userForm.password.$touched }">
 					<label for="password">Password</label>
-					<input type="password" class="form-control" name="password" placeholder="Enter password" ng-model="password">
+					<input type="password" class="form-control" name="password" placeholder="Enter password" ng-model="password" ng-minlength="1" required>
+					<p ng-show="userForm.password.$invalid && !userForm.password.$pristine  && userForm.password.$touched" class="help-block">Your password is required.</p>
 				</div>
-			</div>
-			<div class="row">
-				<div class="checkbox">
-					<label><input type="checkbox" value="">Remember me</label>
+
+				<button class="btn btn-success" ng-click="submit()" ng-disabled="userForm.$invalid">Submit</button>
+				<div class="row">
+					<div class="newuser">Not an existing user <a ui-sref="signUp">Sign up</a>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-			<button class="btn btn-success" ng-click="submit()">Submit</button>
-			</div>
-			<div class="row">
-				<div class="newuser">Not an existing user <a ui-sref="signUp">Sign up</a>
+				<div class="row">
+					<div class="newuser">for admins: <a ui-sref="signInAdmin">Log In</a>  Or <a ui-sref="signUpAdmin">Sign up</a>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="newuser">for admins: <a ui-sref="signInAdmin">Log In</a>  Or <a ui-sref="signUpAdmin">Sign up</a>
-			</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
-</div>
 </div>

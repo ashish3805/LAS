@@ -83,9 +83,16 @@ authModule
 		self.username='';
 		self.password='';
 	}
+	self.userForm={
+		submitted:false,
+		hasError:false,
+		checked:false,
+		error:''
+	};
 	reset();
 	self.submit=function () {
 		console.log("clicked",self.username,self.password);
+		self.userForm.submitted=true;
 		var data={
 			username:self.username,
 			password:self.password
@@ -95,15 +102,21 @@ authModule
 		status.then(
 			function (res) {
 				if(res.data.status){
+					self.userForm.checked=true;
 					$window.localStorage['lasUser'] = angular.toJson(res.data.message);
 					$state.go('studentDashboard.home');
 				}
 				else{
-					console.log("login error",res.data.message);
+					self.userForm.checked=true;
+					self.userForm.hasError=true;
+					self.userForm.error=res.data.message;
+					console.log(res.data.message);
 				}
 			},
 			function (err) {
-				console.log(err);
+					self.userForm.checked=true;
+					self.userForm.hasError=true;
+					sellf.userForm.error=res.data.message;
 			});
 	}
 }])
@@ -186,9 +199,16 @@ authModule
 		self.email='';
 		self.password='';
 	}
+	self.userForm={
+		submitted:false,
+		hasError:false,
+		checked:false,
+		error:''
+	};
 	reset();
 	self.submit=function () {
 		console.log("clicked",self.email,self.password);
+		self.userForm.submitted=true;
 		var data={
 			email:self.email,
 			password:self.password
@@ -197,15 +217,22 @@ authModule
 		status.then(
 			function (res) {
 				if(res.data.status){
+					self.userForm.checked=true;
 					$window.localStorage['lasUser'] = res.data.message;
 					$state.go('adminDashboard.home');
 				}
 				else{
-					console.log("login error",res.data.message);
+					self.userForm.checked=true;
+					self.userForm.hasError=true;
+					self.userForm.error=res.data.message;
+					console.log(res.data.message);
 				}
 			},
 			function (err) {
-				console.log(err);
+					self.userForm.checked=true;
+					self.userForm.hasError=true;
+					self.userForm.error=res.data.message;
+					console.log(res.data.message);
 			});
 	}
 }]);
