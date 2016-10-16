@@ -11,16 +11,23 @@
 				<thead>
 					<tr>
 						<th>Number</th>
+						<th>Statement</th>
 						<th>Marks</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="qsn in questions track by qsn._id">
 						<td>{{qsn.number}}</td>
+						<td>{{qsn.desc}}</td>
 						<td>{{qsn.marks}}</td>
 						<td>
-							<button class="btn btn-success" ui-sref="studentDashboard.solutions({question:qsn._id,course:course,assignment:assignment})">
-								Solutions
+							<button class="btn btn-success" ui-sref="studentDashboard.solutions.create({question:qsn._id,course:course,assignment:assignment})">
+								New Solution
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-info" ui-sref="studentDashboard.solutions({question:qsn._id,course:course,assignment:assignment})">
+								Submitted
 							</button>
 						</td>
 					</tr>

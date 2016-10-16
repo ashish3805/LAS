@@ -67,6 +67,7 @@ app.use('/users', users);
 app.use('/code',code);
 app.use('/profile',profile);
 app.use('/users',users);
+app.use('/admin',admin);
 app.use('/assignments',assignments);
 app.use('/questions',questions);
 app.use('/courses',courses);

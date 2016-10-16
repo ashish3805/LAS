@@ -1,0 +1,32 @@
+	<div id="allSolutions">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<label>Solution</label>
+				</div>
+				<ui-view></ui-view>
+			</div>
+		</div>
+		<div class="container">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="soln in solutions track by soln._id">
+						<td>{{soln.content}}</td>
+						<td ng-show="!soln.status">Unchecked</td>
+						<td ng-show="soln.status">Checked-{{soln.score}}</td>
+						<td>
+							<button class="btn btn-success" ui-sref="studentDashboard.viewSoln({solution:soln._id})">
+								Show
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>

@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row">
+   <div class="col-md-6 col-md-offset-3 toppad" >
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{profile.name}}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class=" col-md-9 "> 
+            <table class="table table-user-information" ng-show="!errorStatus">
+              <tbody>
+                <tr ng-show="flags.edit">
+                  <td>Name:</td>
+                  <td><input type="text" name="name" ng-model="profile.name"></td>
+                </tr>
+                <tr>
+                  <td>Enrollment number:</td>
+                  <td>{{profile.username}}</td>
+                </tr>
+                <tr>
+                  <td>Email id:</td>
+                  <td ng-hide="flags.edit">{{profile.email}}</td>
+                  <td><input type="email" name="email" ng-model="profile.email" ng-show="flags.edit"></td>
+                </tr>
+                <tr>
+                  <td>Contact:</td>
+                  <td ng-hide="flags.edit">{{profile.contact}}</td>
+                  <td><input type="number" name="contact" ng-model="profile.contact" ng-show="flags.edit"></td>
+                </tr>
+                <tr>
+                  <td>Branch:</td>
+                  <td ng-hide="flags.edit">{{profile.branch}}</td>
+                  <td ng-show="flags.edit">          
+                    <select ng-model="profile.branch">
+                      <option>CS</option>
+                      <option>IT</option>
+                      <option>EC</option>
+                      <option>EE</option>
+                      <option>ME</option>
+                      <option>EI</option>
+                      <option>BM</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                <td><a ui-sref=".editPass" ng-show='flags.edit'>Edit Password</a></td>
+                <td>
+                  <ui-view></ui-view>
+                </td>
+                </tr>
+              </tbody>
+            </table>
+          
+            <button class="btn btn-primary">View Performance</button>
+            <button class="btn btn-warning" ng-click="enableEdit()" ng-hide="flags.edit">Edit Profile</button>
+            <button class="btn btn-success" ng-click="saveProfile()" ng-show="flags.edit">Save Profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>    

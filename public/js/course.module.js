@@ -1,4 +1,3 @@
-
 var course=angular.module('courseModule');
 course
 .controller('courseCtrl',['$scope','user','auth','courseSrv',function ($scope,user,auth,course,$http) {

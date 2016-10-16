@@ -29,7 +29,20 @@ router.route('/')
 			});
 		}
 	});
+})
+//update password
+.put(passport.authenticate('user', { session: false}),function (req,res,next) {
+			var password=req.user.generateHash(req.body.password);
+			User.findByIdAndUpdate(req.user._id,{'$set':{'password':password}},{new:true},function (err,user) {
+				if(err)
+					res.json({status:false,message:"Error could not update password!"})
+				else{
+					var token=jwt.sign(user,secret,{expiresIn:'2 days'});
+					res.json({status:true,token:token,message:user});
+				}
+			});
 });
+
 router.route('/admin')
 .post(function (req,res,next) {
 	var data=req.body;
@@ -57,6 +70,17 @@ router.route('/admin')
 	Admin.find({},function (err,data) {
 		console.log(data);
 	})
+})
+//update password
+.put(passport.authenticate('admin', { session: false}),function (req,res,next) {
+			var password=req.user.generateHash(req.body.password);
+			Admin.findByIdAndUpdate(req.user._id,{'$set':{'password':password}},{new:true},function (err,user) {
+				if(err)
+					res.json({status:false,message:"Error could not update password!"})
+				else{
+					var token=jwt.sign(user,secret,{expiresIn:'2 days'});
+					res.json({status:true,token:token,message:user});
+				}
+			});
 });
-
 module.exports=router;

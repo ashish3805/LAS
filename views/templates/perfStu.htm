@@ -1,0 +1,23 @@
+<div class="container" id="perf">
+	<div class="row">
+		<div  class="col-md-12">
+			<h3>Performance</h3>
+		</div>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<li ng-repeat="course in courses track by course._id">
+			<a href="" data-toggle="" ng-click="getPerf(course)">{{course.name}}</a>
+		</li>
+	</ul>
+
+	<div class="panel panel-default" style="margin-top: 20px;">
+		<div class="panel-heading">{{graph.course.name}}</div>
+		<div class="panel-body">
+			<canvas id="bar" class="chart chart-bar"
+			chart-data="graph.data" chart-labels="graph.labels" chart-series="graph.series">
+		</canvas>
+	</div>
+</div>
+
+</div>

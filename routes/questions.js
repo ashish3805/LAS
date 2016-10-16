@@ -5,10 +5,11 @@ var passport=require('../config/passport');
 var Admin=require('../models/Admin');
 var Course=require('../models/Course');
 var Assignment=require('../models/Assignment');
+var solutions=require('./solutions')
 
 questions.route('/')
 .post(function (req,res) {
-
+  
 	var question=Question(req.body);
 	question.save(req.body, function (err,data) {
 		if(err){
@@ -53,6 +54,8 @@ questions.route('/all')
     };
   })
 });
+
+questions.use('/:id/solutions',solutions);
 
 questions.route('/:id')
 .put(function (req,res) {

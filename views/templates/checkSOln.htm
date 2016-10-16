@@ -1,0 +1,45 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-2">
+			<div class="form-group" ng-show="response" ng-class="{ 'has-error' : !resStatus, 'has-success' : resStatus }">
+				<input type="text" name="res" ng-model="response" ng-disabled="true" class="form-control">
+			</div>
+			<form class="form-inline">
+				<div class="form-group">
+				<label for="score">Score</label>
+					<input type="number" name="score" ng-model="score" class="form-control">
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary" ng-click="setScore()">Set Score</button>
+				</div>
+				<div class="form-group">
+				<label for="marks">Max Marks</label>
+					<input type="number" name="marks" ng-model="marks" class="form-control" ng-disabled="true">
+				</div>
+			</form>		
+		</div>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-2">
+				<label>Input</label>
+				<textarea type="text" class="form-control" placeholder="Enter Input Here" ng-model="inputData" rows="5"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-2">
+				<label>Output</label>
+				<textarea type="text" class="form-control" placeholder="Output of your code" ng-model="outputData" disabled="true" rows="5"></textarea>
+			</div>
+		</div>
+		<div class="row" style="padding-top:20px; padding-bottom:100px">
+			<div class="col-md-10 col-md-offset-2">
+				<button class="btn btn-success btn-md" ng-click="submit()">
+					Submit
+				</button>
+				<button class="btn btn-default btn-md" ng-click="reset()">
+					Reset
+				</button>
+			</div>
+		</div>
+
+	</div>
+</div>

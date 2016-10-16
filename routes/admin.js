@@ -68,6 +68,7 @@ admin.route('/courses')
 			};
 		});
 	})
+	//get all courses by admin
 	.get(passport.authenticate('admin', { session: false}),function (req,res) {
 		Admin.findById(req.user._id).populate('courses').exec(function (err,data) {
 			if(err){

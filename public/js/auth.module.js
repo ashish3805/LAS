@@ -7,13 +7,13 @@ authModule
 		var base64Url = token.split('.')[1];
 		var base64 = base64Url.replace('-', '+').replace('_', '/');
 		return JSON.parse($window.atob(base64));
-	}
+	};
 	self.saveToken = function(token) {
 		$window.localStorage['jwtToken'] = token;
-	}
+	};
 	self.getToken = function() {
 		return $window.localStorage['jwtToken'];
-	}
+	};
 	self.isAuthed = function() {
 		var token = self.getToken();
 		if(token) {
@@ -22,36 +22,36 @@ authModule
 		} else {
 			return false;
 		}
-	}
+	};
 	self.logout = function() {
 		$window.localStorage.removeItem('jwtToken');
-	}
+	};
 })
 .service('user',function ($http) {
 	console.log("user");
 	var self = this;
 	self.signIn = function (data) {
-		return $http.post('/signin',data)
+		return $http.post('/signin',data);
 	};
 	self.signUp = function (data) {
-		return $http.post('/signup',data)
-	}
+		return $http.post('/signup',data);
+	};
 	self.getUser = function () {
 		return $http.get('/profile');
-	}
+	};
 })
 .service('admin',function ($http) {
 	console.log("admin");
 	var self = this;
 	self.signIn = function (data) {
-		return $http.post('/signin/admin',data)
+		return $http.post('/signin/admin',data);
 	};
 	self.signUp = function (data) {
-		return $http.post('/signup/admin',data)
-	}
+		return $http.post('/signup/admin',data);
+	};
 	self.getUser = function () {
 		return $http.get('/profile/admin');
-	}
+	};
 })
 .factory('authInterceptor',['$injector',function ($injector) {
 	console.log("inter");
@@ -69,10 +69,9 @@ authModule
     	if(res.data.token) {
     		$injector.get('auth').saveToken(res.data.token);
     	}
-
     	return res;
     }
-}
+};
 }])
 .controller('signIn',['auth','user','$state','$scope','$window',function (auth,user,$state,$scope,$window) {
 	console.log("signIn");
@@ -82,7 +81,7 @@ authModule
 	var reset=function () {
 		self.username='';
 		self.password='';
-	}
+	};
 	self.userForm={
 		submitted:false,
 		hasError:false,
@@ -118,7 +117,7 @@ authModule
 					self.userForm.hasError=true;
 					sellf.userForm.error=res.data.message;
 			});
-	}
+	};
 }])
 .config(function ($httpProvider) {
 	console.log("config");
@@ -130,7 +129,7 @@ authModule
 	self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	var reset=function () {
 		self.name=self.password=self.email=self.branch=self.username=self.contact='';
-	}
+	};
 	reset();
 	self.submit=function () {
 		var data = {
@@ -164,7 +163,7 @@ authModule
 	var self=$scope;
 	var reset=function () {
 		self.name=self.password=self.email=self.dept=self.contact='';
-	}
+	};
 	reset();
 	self.submit=function () {
 		var data = {
@@ -198,7 +197,7 @@ authModule
 	var reset=function () {
 		self.email='';
 		self.password='';
-	}
+	};
 	self.userForm={
 		submitted:false,
 		hasError:false,
@@ -234,7 +233,7 @@ authModule
 					self.userForm.error=res.data.message;
 					console.log(res.data.message);
 			});
-	}
+	};
 }]);
 
 

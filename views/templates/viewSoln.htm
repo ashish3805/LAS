@@ -1,0 +1,20 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<form id="soltionForm">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div ui-ace="{
+							theme:'XCode',
+							mode: 'c_cpp',
+							onLoad: aceLoaded,
+							onChange: aceChanged}" ></div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<ui-view></ui-view>
+	</div>
+</div>

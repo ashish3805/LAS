@@ -1,0 +1,18 @@
+<form id="editPassword"  name="editPassword" ng-submit="submitForm(editPassword.$valid)" novalidate>
+	<div class="form-group" class="has-error">
+		<p ng-show="editPassword.submitted && editPassword.checked  && editPassword.hasError" style="color: red">{{editPassword.error}}</p>
+		<p ng-show="editPassword.submitted && editPassword.checked  && !editPassword.hasError" style="color: green">{{editPassword.success}}</p>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error' : editPassword.password.$invalid && editPassword.password.$touched && !editPassword.password.$pristine }" > 
+		<input type="password" class="form-control" name="password" placeholder="new password" ng-model="password" ng-minlength="1" required>
+		<p ng-show="editPassword.password.$invalid && editPassword.password.$touched  && !editPassword.password.$pristine" class="help-block">Password must be non empty.</p>
+	</div>
+	<div class="form-group">
+		<input type="password" class="form-control" name="rePassword" placeholder="re-enter new password" ng-model="rePassword" ng-minlength="1" required>
+		<p ng-show="editPassword.rePassword.$invalid && editPassword.rePassword.$touched  && !editPassword.rePassword.$pristine" class="help-block">Re enter the password.</p>
+	</div>
+	<div class="form-group">
+		<button class="btn btn-success" ng-click="submit()" ng-disabled="editPassword.$invalid">Update Password</button>
+		<button class="btn btn-default">Cancel</button>
+	</div>
+</form>

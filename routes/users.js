@@ -4,6 +4,7 @@ var User=require('../models/User');
 var Course=require('../models/Course');
 var users=express.Router();
 var Assignment=require('../models/Assignment');
+var Solution=require('../models/Solution');
 
 users.route('/')
 	//route to get the user
@@ -40,6 +41,71 @@ users.route('/')
 			}
 		});
 	});
+
+	//all expanded record
+	users.route('/everything')
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		User.findById(req.user._id).populate({path:'courses',populate:{path:'assignments', populate:{path:'questions'}}}).exec(function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}
+			else{
+				res.json({status:"true",message:data});
+			}
+		})
+	})
+
+
+	users.route('/solutions')
+	//route to get all solutions submitted by user
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		Solution.find({'user':req.user._id},function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}
+			else{
+				res.json({status:"true",message:data});
+			}
+		});
+	})
+	//route to create a solution
+	.post(passport.authenticate('user', { session: false}),function (req,res,next) {
+		req.body.user=req.user._id;
+		var solution=new Solution(req.body);
+		solution.save(function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}
+			else{
+				res.json({status:"true",message:data});
+			}
+		});
+	});
+	
+	users.route('/solutions/qsn/:id')
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		Solution.find({'question':req.params.id},function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}
+			else{
+				res.json({status:"true",message:data});
+			}
+		});
+	});
+
+	users.route('/solutions/:id')
+	.get(passport.authenticate('user', { session: false}),function (req,res,next) {
+		Solution.findById(req.params.id,function (err,data) {
+			if(err){
+				res.json({status:"false",message:err});
+			}
+			else{
+				res.json({status:"true",message:data});
+			}
+		});
+	});
+
 
 	users.route('/courses')
 	//add a new course to user's enrolled list of courses.

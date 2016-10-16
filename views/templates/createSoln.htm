@@ -1,0 +1,33 @@
+<div class="container">
+	<div class="row" id="solution">
+		<div class="col-md-10 col-md-offset-1">
+			<p id="qsnDesc">{{qsn.desc}}</p>
+		</div>
+		<div class="col-md-offset-1 col-md-10">
+			<form id="soltionForm">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-12">
+							<div ui-ace="{
+							theme:'XCode',
+							mode: 'c_cpp',
+							onLoad: aceLoaded,
+							onChange: aceChanged}" ></div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group" ng-show="response" ng-class="{ 'has-error' : !resStatus, 'has-success' : resStatus }">
+					<input type="text" name="res" ng-model="response" ng-disabled="true" class="form-control">
+				</div>
+				<div class="form-group">
+					<button class="btn btn-success" ng-click="submit()">
+						Submit
+					</button>
+					<button class="btn btn-danger" ng-click="reset()">
+						Reset
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
