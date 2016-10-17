@@ -8,6 +8,7 @@ performance
 	perfSrv.getEverything().then(function (res) {
 		if(res.data.status){
 			self.course=res.data.message.courses[0];
+			self.graph.course=self.course;
 			angular.copy(res.data.message.courses,self.courses);
 			getAllSoln();
 			console.log(self.courseData);
@@ -53,7 +54,8 @@ performance
 		},
 		datasetOverride : [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }],
 		labels:[],
-		data:[]
+		data:[],
+		course:''
 	};
 	var drawGraph=function (data) {
 		console.log(data);
@@ -66,6 +68,7 @@ performance
 		self.graph.series=['Assignment'];
 	};
 	self.getPerf=function (course) {
+		self.graph.course=course;
 		drawGraph(utility.evalCourse(course.assignments,self.scoreMap));
 	};
 	self.onClick = function (points, evt) {
@@ -84,6 +87,7 @@ performance
 		// body...
 	};
 	self.evalCourse=function (assignments,scoreMap) {
+		console.log("assignments :",assignments);
 		var ass=[];
 		for (var j = 0; j < assignments.length; j++) {
 			var data={
@@ -93,34 +97,36 @@ performance
 				percentage:0
 			};
 			data.name=assignments[j].title;
-			console.log("dataEVAL ",scoreMap)
 			for (var i = 0;i < assignments[j].questions.length; i++) {
-				if(scoreMap[assignments[j].questions[i]]!=undefined){
+				if(scoreMap[assignments[j].questions[i]._id]!=undefined){
 					//console.log("doing");
-					data.score +=scoreMap[assignments[j].questions[i]];
+					data.score +=scoreMap[assignments[j].questions[i]._id];
 					data.marks +=assignments[j].questions[i].marks;
 				};
 			};
-			if(data.marks) {
-				data.percentage=(data.score/data.marks)*100
+			if(data.score>=data.marks){
+				console.log("wrongdata");
+			}
+			if(data.marks && data.score<=data.marks) {
+				data.percentage=(data.score/data.marks)*100;
+			}else{
+				data.percentage=0;
 			}
 			ass.push(data);
 		}
 		return ass;
 
 	}
+	//calculates scoreMap
 	self.mapSolns=function (solns) {
 		var scoreMap={};
-		//console.log(solns);
-		//console.log("map","   here ",scoreMap);
 		for (var i = 0; i < solns.length; i++) {
-			//console.log("map",i,"   here ",scoreMap);
 			if(solns[i].status && scoreMap[solns[i].question]){
-				if(scoreMap[solns[i].question]<solns[i].score){
-					scoreMap[solns[i].question]=solns[i].score
+				if(scoreMap[solns[i].question[0]]<solns[i].score){
+					scoreMap[solns[i].question[0]]=solns[i].score
 				}
 			}else if(solns[i].status) {
-				scoreMap[solns[i].question]=solns[i].score;
+				scoreMap[solns[i].question[0]]=solns[i].score;
 			}
 		}
 		return scoreMap;

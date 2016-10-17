@@ -11,12 +11,16 @@
 		</li>
 	</ul>
 
-	<div class="panel panel-default" style="margin-top: 20px;">
-		<div class="panel-heading">{{graph.course.name}}</div>
-		<div class="panel-body">
-			<canvas id="bar" class="chart chart-bar"
-			chart-data="graph.data" chart-labels="graph.labels" chart-series="graph.series">
-		</canvas>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+		<div class="panel panel-info" style="margin-top: 20px;">
+				<div class="panel-heading">{{graph.course.name}}</div>
+				<div class="panel-body">
+					<canvas id="bar" class="chart chart-bar"
+					chart-data="graph.data" chart-labels="graph.labels" chart-series="graph.series">
+				</canvas>
+			</div>
+		</div>
 	</div>
 </div>
 
