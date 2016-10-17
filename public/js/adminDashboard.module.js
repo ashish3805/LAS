@@ -1,7 +1,7 @@
 var adminDashboard = angular.module('adminDashboard');
 
 adminDashboard
-	.controller('adminCtrl',['$scope','admin','auth',function ($scope,admin,auth) {
+	.controller('adminCtrl',['$scope','admin','$state','auth',function ($scope,admin,$state,auth) {
 		var self=$scope;
 		self.admin={};
 		if(auth.isAuthed()){
@@ -12,6 +12,6 @@ adminDashboard
 				console.log("error");
 			});
 		}else{
-			console.log("please log in");
+			$state.go('signInAdmin');
 		}
 	}]);

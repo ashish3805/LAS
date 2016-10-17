@@ -126,12 +126,22 @@ authModule
 .controller('signUp',['auth','user','$state',"$scope",'$window',function (auth,user,$state,$scope,$window) {
 	console.log("signUp");
 	var self=$scope;
+	self.userForm={
+		submitted:false,
+		hasError:false,
+		checked:false,
+		error:'',
+		hasSuccess:false,
+		succsess:'',
+		user:''
+	};
 	self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	var reset=function () {
 		self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	};
 	reset();
 	self.submit=function () {
+		self.userForm.submitted=true;
 		var data = {
 			name:self.name,
 			username:self.username,
@@ -144,14 +154,22 @@ authModule
 		status.then(
 			function (res) {
 				if(res.data.status){
+					self.userForm.checked=true;
+					self.userForm.hasSuccess=true;
+					self.userForm.succsess="Signed Up successfully with username ";
+					self.userForm.user=res.data.message.username;
 					$window.localStorage['lasUser'] = res.data.message;
 					reset();
-					$state.go('studentDashboard.home');
 				}else{
+					self.userForm.checked=true;
+					self.userForm.hasError=true;
+					self.userForm.error="Error: "+res.data.message;
 					console.log("err: ",res.data.message);
 				}
 			},
 			function (err) {
+				self.userForm.error=err;
+				self.userForm.checked=true;
 				console.log(err);
 			}
 			);
@@ -161,11 +179,22 @@ authModule
 .controller('signUpAdmin',['auth','admin','$state',"$scope",'$window',function (auth,admin,$state,$scope,$window) {
 	console.log("signUpAdmin");
 	var self=$scope;
+	self.userForm={
+		submitted:false,
+		hasError:false,
+		checked:false,
+		error:'',
+		hasSuccess:false,
+		succsess:'',
+		user:''
+	};
+	
 	var reset=function () {
 		self.name=self.password=self.email=self.dept=self.contact='';
 	};
 	reset();
 	self.submit=function () {
+		self.userForm.submitted=true;
 		var data = {
 			name:self.name,
 			password:self.password,
@@ -180,12 +209,21 @@ authModule
 					$window.localStorage['lasUser'] = res.data.message;
 					console.log(res.data);
 					reset();
-					$state.go('adminDashboard.home');
+					self.userForm.checked=true;
+					self.userForm.hasSuccess=true;
+					self.userForm.succsess="Signed Up successfully with email ";
+					self.userForm.user=res.data.message.email;
 				}else{
+					self.userForm.checked=true;
+					self.userForm.hasError=true;
+					self.userForm.error="Error: "+res.data.message;
 					console.log("err: ",res.data.message);
 				}
 			},
 			function (err) {
+									self.userForm.checked=true;
+					self.userForm.hasError=true;
+					self.userForm.error="Error: "+err
 				console.log(err);
 			});
 	};

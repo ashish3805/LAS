@@ -107,6 +107,7 @@ solution
     var self=$scope;
     self.response='';
     self.marks='';
+    self._editor='';
     $scope.aceLoaded = function(_editor){
         // Editor part
         var _session = _editor.getSession();
@@ -136,6 +137,7 @@ solution
         _editor.on("changeSession", function(){ });
         _session.on("change", function(){ 
         });
+        self._editor=_editor;
     };
 }])
 .service('solutionSrv',function ($http) {
@@ -183,7 +185,7 @@ solution
     }
     getQsnSolutions();
 }])
-.controller('checkSolnCtrl',['questionSrv','$scope','$stateParams','$window','solutionSrvAdmin',function (qsnSrv,$scope,$stateParams,$window,solutionSrv) {
+.controller('checkSolnCtrl',['code','questionSrv','$scope','$stateParams','$window','solutionSrvAdmin',function (code,qsnSrv,$scope,$stateParams,$window,solutionSrv) {
     var self=$scope;
     self.question=$stateParams.question;
     self.response='';
@@ -234,4 +236,26 @@ solution
             });
         }
     };
+    $scope.submit=function () {
+            var data={
+                code: self._editor.getValue(),
+                input:$scope.inputData
+            }
+            console.log(data);
+            code.compile(data).then(function (res) {
+                if(res.data.status){
+                    $scope.outputData=res.data.message;
+                    console.log(res.data.message);
+                }else{
+                    $scope.outputData=res.data.message;
+                    console.log(res.data.message);
+                }
+            });
+        }
+
+    $scope.reset=function () {
+            $scope.inputData="";
+            $scope.outputData="";
+        }
+
 }])

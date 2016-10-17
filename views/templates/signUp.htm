@@ -1,30 +1,68 @@
-	<div class="container">
-		<div class="row">
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
 			<h2>Student Sign Up</h2>
-			<form>
-				<div class="form-group">
-					<label for="name">Name</label>
-					<input type="text" class="form-control" name="name" placeholder="Enter your name here" ng-model="name">
-					<label for="password">Password</label>
-					<input type="password" class="form-control" name="password" placeholder="Enter Password" ng-model="password">
-					<label for="email">Email id</label>
-					<input type="email" class="form-control" name="email" placeholder="Enter Email Id"  ng-model="email">
-					<label for="branch">Branch</label>
-					<select class="form-control" ng-model="branch">
-  						<option>CS</option>
- 						<option>IT</option>
-  						<option>EC</option>
-  						<option>EE</option>
-  						<option>ME</option>
-  						<option>EI</option>
-  						<option>BM</option>
-					</select>
-					<label for="username">Enrollment Number</label>
-					<input type="text" class="form-control" name="username" placeholder="Enter Enrollment number, will be used as username" ng-model="username">
-					<label for="contact">Contact Number</label>
-					<input type="number" class="form-control" name="contact" placeholder="Enter Contact Number" ng-model="contact">
+			<form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+				<div class="form-group" class="has-success">
+					<p ng-show="userForm.checked && userForm.hasSuccess" style="color: green;">{{userForm.success}}</p>
 				</div>
-				<button type="submit" class="btn btn-default" ng-click="submit()">Sign Up</button>
+				<div class="form-group" class="has-error">
+					<p ng-show="userForm.submitted && userForm.checked  && userForm.hasError" style="color: red">{{userForm.error}}</p>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && userForm.name.$touched && !userForm.name.$pristine }">
+					<label for="name">Name</label>
+					<input type="text" class="form-control" name="name" placeholder="Enter your name." ng-model="name" ng-minlength="1" required>
+					<p ng-show="userForm.name.$invalid && userForm.name.$touched  && !userForm.name.$pristine" class="help-block">Your Name is required.</p>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error' : userForm.password.$invalid && userForm.password.$touched && !userForm.password.$pristine }">
+					<label for="password">Password</label>
+					<input type="password" class="form-control" name="password" placeholder="Enter Password" ng-model="password" minlength="1" required>
+					<p ng-show="userForm.password.$invalid && userForm.password.$touched  && !userForm.password.$pristine" class="help-block">Your password is required.</p>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && userForm.email.$touched && !userForm.email.$pristine }">
+					<label for="email">Email id</label>
+					<input type="email" class="form-control" name="email" placeholder="Enter Email Id"  ng-model="email" minlength="1" required>
+					<p ng-show="userForm.email.$invalid && userForm.email.$touched  && !userForm.email.$pristine" class="help-block">Please enter a valid email.</p>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error' : userForm.branch.$invalid && userForm.branch.$touched && !userForm.branch.$pristine }">
+					<label for="branch">Branch</label>
+					<select class="form-control" ng-model="branch" required>
+						<option>CS</option>
+						<option>IT</option>
+						<option>EC</option>
+						<option>EE</option>
+						<option>ME</option>
+						<option>EI</option>
+						<option>BM</option>
+					</select>
+					<p ng-show="userForm.branch.$invalid && userForm.branch.$touched  && !userForm.branch.$pristine" class="help-block">Please select a branch.</p>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && userForm.username.$touched && !userForm.username.$pristine }">
+					<label for="username">Enrollment Number</label>
+					<input type="text" class="form-control" name="username" placeholder="Enter Enrollment number, will be used as username" ng-model="username" minlength="1" required>
+					<p ng-show="userForm.username.$invalid && userForm.username.$touched  && !userForm.username.$pristine" class="help-block">Your enrollement is required.</p>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error' : userForm.contact.$invalid && userForm.contact.$touched && !userForm.contact.$pristine }">
+					<label for="contact">Contact Number</label>
+					<input type="number" class="form-control" name="contact" placeholder="Enter Contact Number" ng-model="contact" minlength="1" required>
+					<p ng-show="userForm.contact.$invalid && userForm.contact.$touched  && !userForm.contact.$pristine" class="help-block">Your contact is required.</p>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-success" ng-click="submit()" ng-disabled="userForm.$invalid">Sign Up</button>
+				</div>
+				<div class="row">
+				<p>for students: <a ui-sref="signIn">Login</a></p>
+					<div class="newuser">for admins: <a ui-sref="signInAdmin">Log In</a>  Or <a ui-sref="signUpAdmin">Sign up</a>
+					</div>
+				</div>
 			</form>
 		</div>
-	</div>		
+	</div>
+</div>		

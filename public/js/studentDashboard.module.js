@@ -5,11 +5,6 @@ studentDashboard
 	var self=$scope;
 	self.user={};
 	if(auth.isAuthed()){
-		/*console.log("authed");
-		if($window.localStorage['lasUser']){
-			console.log("copied from local",JSON.parse($window.localStorage['lasUser']));
-			angular.copy(JSON.parse($window.localStorage['lasUser']),self.user);
-		}else{*/
 			user.getUser().then(function (res) {
 				console.log("copied from server");
 				$window.localStorage['lasUser'] = res.data.message;
