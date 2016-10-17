@@ -15,10 +15,6 @@
                   <td><input type="text" name="name" ng-model="profile.name"></td>
                 </tr>
                 <tr>
-                  <td>Enrollment number:</td>
-                  <td>{{profile.username}}</td>
-                </tr>
-                <tr>
                   <td>Email id:</td>
                   <td ng-hide="flags.edit">{{profile.email}}</td>
                   <td><input type="email" name="email" ng-model="profile.email" ng-show="flags.edit"></td>
@@ -29,10 +25,10 @@
                   <td><input type="number" name="contact" ng-model="profile.contact" ng-show="flags.edit"></td>
                 </tr>
                 <tr>
-                  <td>Branch:</td>
-                  <td ng-hide="flags.edit">{{profile.branch}}</td>
+                  <td>Department:</td>
+                  <td ng-hide="flags.edit">{{profile.dept}}</td>
                   <td ng-show="flags.edit">          
-                    <select ng-model="profile.branch">
+                    <select ng-model="profile.dept">
                       <option>CS</option>
                       <option>IT</option>
                       <option>EC</option>
@@ -46,7 +42,7 @@
                 <tr>
                   <td>About Me:</td>
                   <td ng-hide="flags.edit">{{profile.desc}}</td>
-                  <td><textarea name="desc" ng-model="profile.desc" ng-show="flags.edit"></textarea> </td>
+                  <td><textarea name="desc" ng-model="profile.desc" ng-show="flags.edit"></textarea></td>
                 </tr>
                 <tr>
                 <td><a ui-sref=".editPass" ng-show='flags.edit'>Edit Password</a></td>

@@ -163,6 +163,16 @@ app.config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlR
 		url:'/check',
 		controller:'checkSolnCtrl'
 	})
+	.state('adminDashboard.account',{
+		templateUrl:'/templates/accountAdmin.htm',
+		url:'/account',
+		controller:'accountCtrlAdmin'
+	})
+	.state('adminDashboard.account.editPass',{
+		templateUrl:'/templates/editPass.htm',
+		url:'/editPassword',
+		controller:'editPassAdmin'
+	})
 	$urlRouterProvider.otherwise('signIn');
 }])
 .controller('mainApp',['auth','$scope','$state','$window',function (auth,$scope,$state,$window) {

@@ -1,7 +1,7 @@
 var express=require('express');
 var router=express.Router();
 var passport=require('../config/passport');
-var Admin=-require('../models/Admin');
+var Admin=require('../models/Admin');
 var User=require('../models/User');
 
 router.route('/')
@@ -31,13 +31,13 @@ router.route('/admin')
 .get(passport.authenticate('admin', { session: false}),function (req,res,next) {
 	res.json({status:true,message:req.user});
 })
-.put(function (req,res) {
-		Admin.findByIdAndUpdate(req.user._id,{ 
+.put(passport.authenticate('admin', { session: false}),function (req,res,next) {
+		Admin.findOneAndUpdate({"_id":req.user._id},{ 
 		"$set": { 
 			"name": req.body.name,
 			"email": req.body.email,
 			"contact": req.body.contact,
-			"dept": req.body.branch,
+			"dept": req.body.dept,
 			"desc": req.body.desc
 		}
 	},{new:true},function (err,data) {
