@@ -5,10 +5,10 @@ list all dependent modules here
 angular.module('authModule',[]);
 angular.module('accountModule',[]);
 angular.module('codeModule',['ui.ace']);
-angular.module('solutionModule',['authModule','ui.ace']);
 angular.module('questionModule',['authModule']);
 angular.module('courseModule',['authModule']);
 angular.module('assignmentModule',['authModule']);
+angular.module('solutionModule',['authModule','ui.ace','questionModule']);
 angular.module('performanceModule',['chart.js','courseModule','assignmentModule','solutionModule']);
 angular.module('studentDashboard',['authModule','codeModule']);
 angular.module('adminDashboard',['authModule','codeModule']);

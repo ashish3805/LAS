@@ -6,6 +6,31 @@ var Admin=require('../models/Admin');
 var jwt = require('jsonwebtoken');
 var secret="apurva";
 
+router.route('/super/user')
+.post(function (req,res,next) {
+	var user= new User({});
+	var password=user.generateHash(req.body.password);
+	User.findOneAndUpdate({"username":req.body.username},{"$set":{"password":password}},{new:true}).exec(function (err,data) {
+		if(err){
+			res.json({status:false,message:"Error updating password!"});
+		}else{
+			res.json({status:true,message:data});
+		}
+	})
+});
+router.route('/super/admin')
+.post(function (req,res,next) {
+	var user= new Admin({});
+	var password=user.generateHash(req.body.password);
+	Admin.findOneAndUpdate({"email":req.body.email},{"$set":{"password":password}},{new:true}).exec(function (err,data) {
+		if(err){
+			res.json({status:false,message:"Error updating password!"});
+		}else{
+			res.json({status:true,message:data});
+		}
+	})
+})
+
 router.route('/')
 .post(function (req,res,next) {
 	var data=req.body;

@@ -21,10 +21,9 @@ performance
 	var getAllSoln=function () {
 		soln.fetchAllSoln().then(function (res) {
 			if(res.data.status){
+				var courseData;
 				self.scoreMap=utility.mapSolns(res.data.message);
-				console.log("loggign course",self.course)
-				angular.copy(utility.evalCourse(self.course.assignments,self.scoreMap),self.courseData);
-				drawGraph(courseData);
+				drawGraph(utility.evalCourse(self.course.assignments,self.scoreMap));
 			}else{
 				console.log(res.data.message)
 			}
@@ -52,17 +51,23 @@ performance
 				]
 			}
 		},
-		datasetOverride : [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }]
+		datasetOverride : [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }],
+		labels:[],
+		data:[]
 	};
 	var drawGraph=function (data) {
-		self.graph.labels=utility.extractAssignmentNames(course);
-		self.graph.data=[[65, 59, 80, 81, 56, 55, 40],[6, 5, 8, 8, 5, 5, 0]];
-		self.graph.series=['Assignemnt',"ass"];
-	}
+		console.log(data);
+		self.graph.labels=[];
+		self.graph.data=[];
+		for (var i = 0; i < data.length; i++) {
+			self.graph.labels.push(data[i].name);
+			self.graph.data.push(data[i].percentage);
+		}
+		self.graph.series=['Assignment'];
+	};
 	self.getPerf=function (course) {
-		self.graph.course=course;
-
-	}
+		drawGraph(utility.evalCourse(course.assignments,self.scoreMap));
+	};
 	self.onClick = function (points, evt) {
 		console.log(points, evt);
 	};
@@ -88,11 +93,17 @@ performance
 				percentage:0
 			};
 			data.name=assignments[j].title;
-			for (var i = 0; i < assignments[j].questions.length; i++) {
-				data.score+=scoreMap[assignments[j].questions[i]];
-				data.marks+=assignments[j].questions[i].marks;
+			console.log("dataEVAL ",scoreMap)
+			for (var i = 0;i < assignments[j].questions.length; i++) {
+				if(scoreMap[assignments[j].questions[i]]!=undefined){
+					//console.log("doing");
+					data.score +=scoreMap[assignments[j].questions[i]];
+					data.marks +=assignments[j].questions[i].marks;
+				};
+			};
+			if(data.marks) {
+				data.percentage=(data.score/data.marks)*100
 			}
-			data.percentage=(data.score/data.marks)*100;
 			ass.push(data);
 		}
 		return ass;
@@ -100,12 +111,15 @@ performance
 	}
 	self.mapSolns=function (solns) {
 		var scoreMap={};
+		//console.log(solns);
+		//console.log("map","   here ",scoreMap);
 		for (var i = 0; i < solns.length; i++) {
-			if(scoreMap[solns[i].question]){
+			//console.log("map",i,"   here ",scoreMap);
+			if(solns[i].status && scoreMap[solns[i].question]){
 				if(scoreMap[solns[i].question]<solns[i].score){
 					scoreMap[solns[i].question]=solns[i].score
 				}
-			}else{
+			}else if(solns[i].status) {
 				scoreMap[solns[i].question]=solns[i].score;
 			}
 		}

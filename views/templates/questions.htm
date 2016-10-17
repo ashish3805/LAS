@@ -39,12 +39,14 @@
 				<thead>
 					<tr>
 						<th>Number</th>
+						<th>Description</th>
 						<th>Marks</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="qsn in questions track by qsn._id">
 						<td>{{qsn.number}}</td>
+						<td>{{qsn.desc}}</td>
 						<td>{{qsn.marks}}</td>
 						<td>
 							<button class="btn btn-success" ui-sref="adminDashboard.solutions({question:qsn._id,course:course,assignment:assignment})">

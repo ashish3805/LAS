@@ -23,7 +23,7 @@
 						<td>{{soln.content}}</td>
 						<td ng-show="!soln.status">Unchecked</td>
 						<td ng-show="soln.status">Checked</td>
-						<td>{{soln.user.name}}</td>
+						<td>{{soln.user[0].name}}</td>
 						<td ng-show="!soln.status">	
 							<button class="btn btn-info" ui-sref="adminDashboard.viewSoln.checkSoln({solution:soln._id})">
 								Check

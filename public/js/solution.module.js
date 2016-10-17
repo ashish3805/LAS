@@ -5,7 +5,7 @@ solution
 	var self=$scope;
     self.question=$stateParams.question;
     self.response='';
-	$scope.aceLoaded = function(_editor){
+    $scope.aceLoaded = function(_editor){
     	// Editor part
     	var _session = _editor.getSession();
     	var _renderer = _editor.renderer;
@@ -26,29 +26,30 @@ solution
     	});
     	$scope.submit=function () {
             self.response='';
-    		var data={
-    			content: _editor.getValue(),
-                question:self.question,
-                status:false
-    		}
-            solutionSrv.create(data).then(function (res) {
-                if(res.data.status){
-                    self.response='solution submitted successfully!';
-                    self.resStatus=true;
-                    console.log(res.data.message);
-                }else{
-                    self.response='There was a problem submittoing solution!';
-                    self.resStatus=false;
-                }
-            },function (err) {
-                    self.response='There was a problem submittoing solution!';
-                    self.resStatus=false;
-            });
-    	}
-    	$scope.reset=function () {
-    		_editor.setValue("");
-    	}
-    };
+            var data={
+             content: _editor.getValue(),
+             question:self.question,
+             status:false
+         }
+         solutionSrv.create(data).then(function (res) {
+            if(res.data.status){
+                self.response='solution submitted successfully!';
+                self.resStatus=true;
+                self.solutions.push(res.data.message);
+                console.log("solutions child",self.solutions);
+            }else{
+                self.response='There was a problem submittoing solution!';
+                self.resStatus=false;
+            }
+        },function (err) {
+            self.response='There was a problem submittoing solution!';
+            self.resStatus=false;
+        });
+     }
+     $scope.reset=function () {
+      _editor.setValue("");
+  }
+};
 }])
 .controller('solutionCtrl',['$scope','$stateParams','$window','solutionSrv',function ($scope,$stateParams,$window,solutionSrv) {
     var self=$scope;
@@ -182,23 +183,55 @@ solution
     }
     getQsnSolutions();
 }])
-.controller('checkSolnCtrl',['$scope','$stateParams','$window','solutionSrvAdmin',function ($scope,$stateParams,$window,solutionSrv) {
+.controller('checkSolnCtrl',['questionSrv','$scope','$stateParams','$window','solutionSrvAdmin',function (qsnSrv,$scope,$stateParams,$window,solutionSrv) {
     var self=$scope;
     self.question=$stateParams.question;
     self.response='';
     self.resStatus=false;
-    self.setScore=function () {
-        solutionSrv.updateScore($stateParams.solution,{score:self.score}).then(function (res) {
-            if(res.data.status){
-                self.resStatus=true;
-                self.response='score updated to '+res.data.message.score;
+    self.marks='';
+    self.score=0;
+    console.log($stateParams);
+    solutionSrv.fetchSoln($stateParams.solution).then(function (res) {
+        if(res.data.status){
+            setMarks(res);
+        }else{
+            console.log(res)
+        }
+    },function (err) {
+    });
+    var setMarks=function (res) {
+        qsnSrv.getQuestion(123,123,res.data.message.question[0]._id).then(function (res) {
+            if(res.data.message){
+                self.marks=res.data.message.marks;
+                console.log("done got qsn",res.data.message);
             }else{
-                self.resStatus=false;
-                self.response='Error updating score '+res.data.message;
+                console.log(res.data.message);
             }
         },function (err) {
+            console.log(err);
+        });
+    };
+    self.setScore=function () {
+        if(self.score>self.marks){
+            self.resStatus=true;
+            self.response="Score must be less than Max Marks";
+        }else{
+            self.resStatus=false;
+            solutionSrv.updateScore($stateParams.solution,{score:self.score}).then(function (res) {
+                if(res.data.status){
+                    self.resStatus=true;
+                    self.response='score updated to '+res.data.message.score;
+                    console.log(res.data.message);
+                }else{
+                    self.resStatus=false;
+                    self.response='Error updating score '+res.data.message;
+                    console.log(res.data.message);
+                }
+            },function (err) {
                 self.resStatus=false;
+                console.log(err);
                 self.response='Error updating score '+err;
-        })
+            });
+        }
     };
 }])

@@ -6,6 +6,7 @@ var jwt = require('jsonwebtoken');
 var secret="apurva";
 var router=express.Router();
 
+
 router.route('/')
 	.post(function (req,res,next) {
 		User.findOne({'username':req.body.username},function (err,user) {
