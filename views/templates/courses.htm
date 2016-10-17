@@ -2,22 +2,31 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<form id= "createCourse">
-					<div class="form-group">
+				<form id= "courseForm" name="courseForm" ng-submit="submitForm(courseForm.$valid)" novalidate>
+					<div class="form-group has-success" ng-show="courseForm.hasSuccess" >
+						<p style="color: green;">{{courseForm.success}}</p>
+					</div>
+					<div class="form-group" class="has-error">
+						<p ng-show="courseForm.submitted && courseForm.checked  && courseForm.hasError" style="color: red">{{courseForm.error}}</p>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : courseForm.courseName.$invalid && courseForm.courseName.$touched && !courseForm.courseName.$pristine }">
 						<label for="courseName">Course Name</label>
-						<input type="text" class="form-control" name="courseName" placeholder="Enter Course Name here" ng-model="data.name">
+						<input type="text" class="form-control" name="courseName" placeholder="Enter Course Name here" ng-model="data.name" ng-minlength="1" required>
+						<p ng-show="courseForm.courseName.$invalid && courseForm.courseName.$touched  && !courseForm.courseName.$pristine" class="help-block">Enter course name.</p>
 					</div>
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error' : courseForm.desc.$invalid && courseForm.desc.$touched && !courseForm.desc.$pristine }">
 						<label>Description</label>
-						<textarea type="text" class="form-control" placeholder="Description" ng-model="data.desc">
+						<textarea type="text" class="form-control" placeholder="Description" ng-model="data.desc" name="desc" ng-minlength="1" required>
 						</textarea>
+						<p ng-show="courseForm.desc.$invalid && courseForm.desc.$touched  && !courseForm.desc.$pristine" class="help-block">Course description is required.</p>
 					</div>
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error' : courseForm.courseCode.$invalid && courseForm.courseCode.$touched && !courseForm.courseCode.$pristine }">
 						<label for="courseCode">Course Code</label>
-						<input type="text" class="form-control" name="courseCode" placeholder="Ex. IT201"  ng-model="data.code">
+						<input type="text" class="form-control" name="courseCode" placeholder="Ex. IT201"  ng-model="data.code" ng-minlength="1" required>
+						<p ng-show="courseForm.courseCode.$invalid && courseForm.courseCode.$touched  && !courseForm.courseCode.$pristine" class="help-block">Enter a course code.</p>
 					</div>
 					<div class="form-group" id="courseActions">
-						<button type="submit" class="btn btn-primary" ng-click="createCourse()">
+						<button type="submit" class="btn btn-primary" ng-click="createCourse()" ng-disabled="courseForm.$invalid">
 							Save
 						</button>
 						<button class="btn btn-default" ng-click="resetCourseForm()">

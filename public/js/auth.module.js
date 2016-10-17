@@ -132,15 +132,24 @@ authModule
 		checked:false,
 		error:'',
 		hasSuccess:false,
-		succsess:'',
+		success:'',
 		user:''
 	};
+	var restoreForm=function () {
+		self.userForm.name.$pristine=true;
+		self.userForm.password.$pristine=true;
+		self.userForm.branch.$pristine=true;
+		self.userForm.email.$pristine=true;
+		self.userForm.contact.$pristine=true;
+		self.userForm.username.$pristine=true;
+	}
 	self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	var reset=function () {
 		self.name=self.password=self.email=self.branch=self.username=self.contact='';
 	};
 	reset();
 	self.submit=function () {
+		restoreForm();
 		self.userForm.submitted=true;
 		var data = {
 			name:self.name,
@@ -156,7 +165,7 @@ authModule
 				if(res.data.status){
 					self.userForm.checked=true;
 					self.userForm.hasSuccess=true;
-					self.userForm.succsess="Signed Up successfully with username ";
+					self.userForm.success="Signed Up successfully with username ";
 					self.userForm.user=res.data.message.username;
 					$window.localStorage['lasUser'] = res.data.message;
 					reset();
@@ -185,7 +194,7 @@ authModule
 		checked:false,
 		error:'',
 		hasSuccess:false,
-		succsess:'',
+		success:'',
 		user:''
 	};
 	
@@ -193,8 +202,16 @@ authModule
 		self.name=self.password=self.email=self.dept=self.contact='';
 	};
 	reset();
+	var restoreForm=function () {
+		self.userForm.name.$pristine=true;
+		self.userForm.password.$pristine=true;
+		self.userForm.dept.$pristine=true;
+		self.userForm.email.$pristine=true;
+		self.userForm.contact.$pristine=true;
+	}
 	self.submit=function () {
 		self.userForm.submitted=true;
+		restoreForm();
 		var data = {
 			name:self.name,
 			password:self.password,
@@ -211,7 +228,7 @@ authModule
 					reset();
 					self.userForm.checked=true;
 					self.userForm.hasSuccess=true;
-					self.userForm.succsess="Signed Up successfully with email ";
+					self.userForm.success="Signed Up successfully with email ";
 					self.userForm.user=res.data.message.email;
 				}else{
 					self.userForm.checked=true;

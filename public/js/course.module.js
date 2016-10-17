@@ -3,6 +3,15 @@ course
 .controller('courseCtrl',['$scope','user','auth','courseSrv',function ($scope,user,auth,course,$http) {
 	var self=$scope;
 	self.courses=[];
+	self.courseForm={
+		submitted:false,
+		hasError:false,
+		checked:false,
+		error:'',
+		hasSuccess:false,
+		success:'',
+		user:''
+	};
 	var logError=function (err) {
 		console.log("Error: "+err);
 	};
@@ -14,13 +23,26 @@ course
 			code:''
 		}
 	}
+	var restoreForm=function () {
+		self.courseForm.courseName.$pristine=true;
+		self.courseForm.courseCode.$pristine=true;
+		self.courseForm.desc.$pristine=true;
+	}
 	self.createCourse=function () {
+		restoreForm();
+		self.courseForm.submitted=true;
 		course.createCourse(self.data).then(function (res) {
 			if(res.data.status){
 				console.log(res.data);
+				self.courseForm.checked=true;
+				self.courseForm.hasSuccess=true;
+				self.courseForm.success="Created course.";
 				self.courses.push(res.data.message);
 				self.data.name=self.data.desc=self.data.code="";
 			}else{
+				self.courseForm.checked=true;
+				self.courseForm.hasError=true;
+				self.courseForm.error="Error: "+res.data.message;
 				console.log(res.data);
 			}
 		},logError);
@@ -30,8 +52,8 @@ course
 			if(res.data.status){
 				console.log(res.data.message);
 				var removeIndex = self.courses.map(function(item) { return item._id; })
-                       .indexOf(c_id);
-                       ~removeIndex && self.courses.splice(removeIndex, 1);
+				.indexOf(c_id);
+				~removeIndex && self.courses.splice(removeIndex, 1);
 			}else{
 				console.log(res.data.message);
 			}
@@ -112,9 +134,9 @@ course
 	self.showMoreText="Show More";
 	self.showMore=function () {
 		if(self.showMoreText=="Show More"){
-				self.courseDispNum+=3;
+			self.courseDispNum+=3;
 		}else if(self.showMoreText=="Show Less"){
-				self.courseDispNum-=3;
+			self.courseDispNum-=3;
 		}
 		if(self.courseDispNum<=4){
 			self.showMoreText="Show More";
@@ -171,8 +193,8 @@ course
 			if(res.data.status){
 				console.log(res.data.message);
 				var removeIndex = self.enrolledCourses.map(function(item) { return item._id; })
-                       .indexOf(c_id);
-                       ~removeIndex && self.enrolledCourses.splice(removeIndex, 1);
+				.indexOf(c_id);
+				~removeIndex && self.enrolledCourses.splice(removeIndex, 1);
 			}else{
 				console.log(res.data.message);
 			}

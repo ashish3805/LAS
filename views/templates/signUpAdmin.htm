@@ -3,8 +3,10 @@
 <div class="col-md-8 col-md-offset-2">
 			<h2>Admin Sign Up</h2>
 			<form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
-				<div class="form-group" class="has-success">
-					<p ng-show="userForm.checked && userForm.hasSuccess" style="color: green;">{{userForm.success}}</p>
+				<div class="form-group has-success" ng-show="userForm.checked && userForm.hasSuccess">
+					<p style="color: green;">{{userForm.success}}{{userForm.user}}</p>
+					<br>
+					Now you can <a class="btn btn-info" ui-sref="signInAdmin">Sign In</a>
 				</div>
 				<div class="form-group" class="has-error">
 					<p ng-show="userForm.submitted && userForm.checked  && userForm.hasError" style="color: red">{{userForm.error}}</p>
@@ -30,7 +32,7 @@
 
 				<div class="form-group" ng-class="{ 'has-error' : userForm.dept.$invalid && userForm.dept.$touched && !userForm.dept.$pristine }">
 					<label for="dept">Department</label>
-					<select class="form-control" ng-model="dept" required>
+					<select class="form-control" ng-model="dept" name="dept" required>
 						<option>CS</option>
 						<option>IT</option>
 						<option>EC</option>
@@ -55,7 +57,7 @@
 				<p>for admins: <a ui-sref="signInAdmin">Login</a></p>
 					<div class="newuser">for students: <a ui-sref="signIn">Log In</a>  Or <a ui-sref="signUp">Sign up</a>
 					</div>
-				</div>>
+				</div>
 			</form>
 			</div>
 		</div>
