@@ -13,10 +13,10 @@ course.route('/all')
 .get(function (req,res,next){
 	Course.find({},function (err,data) {
 		if(err){
-			console.log(err);
+			//console.log(err);
 			res.json({status:false,message:err});
 		}else{
-			console.log(data);
+			//console.log(data);
 			res.send({status:true,message:data});
 		}
 	});
@@ -36,7 +36,7 @@ course.route('/')
 						res.json({status:false,message:err});
 					}else{
 						res.send({status:true,message:data});
-						console.log(userData);
+						//console.log(userData);
 					}
 			});
 		};
@@ -54,22 +54,22 @@ course.route('/')
 
 course.route('/:id')
 .put(passport.authenticate('admin', { session: false}),function (req,res) {
-	console.log("put");
+	//console.log("put");
 	res.send("put");
 })
 .delete(passport.authenticate('admin', { session: false}),function (req,res) {
-	console.log("delete  ", req.params.id);
+	//console.log("delete  ", req.params.id);
 	Course.findByIdAndRemove(req.params.id, function (err,data) {
 		if(err){
-			console.log(err);
+			//console.log(err);
 			res.json({status:false,message:err});
 		}else{
 			Admin.findByIdAndUpdate(req.user._id,{ $pop: {"courses": req.params.id }},{new:true}, function (err,data) {
 				if(err){
-					console.log(err);
+					//console.log(err);
 					res.json({status:false,message:err});
 				}else{
-					console.log(data);
+					//console.log(data);
 					res.send({status:true,message:data});
 				}
 			});
@@ -77,13 +77,13 @@ course.route('/:id')
 	});
 })
 .get(function (req,res) {
-	console.log("get "+req.params.id);
+	//console.log("get "+req.params.id);
 	Course.findById(req.params.id).populate({path:'assignments'}).exec(function (err,data) {
 		if(err){
-			console.log(err);
+			//console.log(err);
 			res.json({status:false,message:err});
 		}else{
-			console.log(data);
+			//console.log(data);
 			res.send({status:true,message:data});
 		}
 	});
@@ -95,10 +95,10 @@ course.route('/student')
 .get(passport.authenticate('user', { session: false}),function (req,res,next){
 	User.findById(rq.user._id).populate({path:'courses'}).exec(function (err,data) {
 		if(err){
-			console.log(err);
+			//console.log(err);
 			res.json({status:false,message:err});
 		}else{
-			console.log(data);
+			//console.log(data);
 			res.send({status:true,message:data.courses});
 		}
 	});
@@ -115,13 +115,13 @@ course.route('/student')
 
 course.route('/student/:id')
 .delete(passport.authenticate('user', { session: false}),function (req,res) {
-	console.log("delete  ", req.params.id);
+	//console.log("delete  ", req.params.id);
 	User.findByIdAndUpdate(req.user._id,{ $pop: {"courses": req.params.id }},{new:true}, function (err,data) {
 		if(err){
-			console.log(err);
+			//console.log(err);
 			res.json({status:false,message:err});
 		}else{
-			console.log(data);
+			//console.log(data);
 			res.send({status:true,message:data});
 		}
 	});

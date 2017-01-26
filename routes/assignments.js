@@ -57,11 +57,11 @@ assignments.route('/all')
 
   assignments.route('/:id')
   .put(function (req,res) {
-    console.log('put');
+    //console.log('put');
     res.send("put");
   })
   .delete(function (req,res) {
-    console.log('delete');
+    //console.log('delete');
     Assignment.findByIdAndRemove(req.params.id, function (err,data) {
       if(err){
         res.json({status:false,message:err});

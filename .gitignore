@@ -6,3 +6,5 @@ a.exe
 code.c
 input
 .vscode
+a.out
+*.log

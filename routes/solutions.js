@@ -21,7 +21,7 @@ solutions.route('/:sol')
 //update the score for the problem
 .put(passport.authenticate('admin', { session: false}),function (req,res) {
 			var score=req.body.score;
-			console.log(res.body);
+			//console.log(res.body);
 			Solution.findByIdAndUpdate(req.params.sol, { 'score':score, 'status':true},{new:true},function (err,data){
 					if(err){
 						res.json({status:false,message:err});

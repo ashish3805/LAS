@@ -62,7 +62,7 @@ admin.route('/courses')
 						res.json({status:false,message:err});
 					}else{
 						res.send({status:true,message:data});
-						console.log(userData);
+						//console.log(userData);
 					}
 				});
 			};
@@ -82,18 +82,18 @@ admin.route('/courses')
 
 	admin.route('/courses/:course')
 	.delete(passport.authenticate('admin', { session: false}),function (req,res) {
-		console.log("delete  ", req.params.course);
+		//console.log("delete  ", req.params.course);
 		Course.findByIdAndRemove(req.params.course, function (err,data) {
 			if(err){
-				console.log(err);
+				//console.log(err);
 				res.json({status:false,message:err});
 			}else{
 				Admin.findByIdAndUpdate(req.user._id,{ $pop: {"courses": req.params.course }},{new:true}, function (err,data) {
 					if(err){
-						console.log(err);
+						//console.log(err);
 						res.json({status:false,message:err});
 					}else{
-						console.log(data);
+						//console.log(data);
 						res.send({status:true,message:data});
 					}
 				});
@@ -101,13 +101,13 @@ admin.route('/courses')
 		});
 	})
 	.get(function (req,res) {
-		console.log("get "+req.params.course);
+		//console.log("get "+req.params.course);
 		Course.findById(req.params.course).populate({path:'assignments'}).exec(function (err,data) {
 			if(err){
-				console.log(err);
+				//console.log(err);
 				res.json({status:false,message:err});
 			}else{
-				console.log(data);
+				//console.log(data);
 				res.send({status:true,message:data});
 			}
 		});
